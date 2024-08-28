@@ -1,0 +1,391 @@
+{
+  "appConfig": {},
+  "application": "ossapp",
+  "disabled": false,
+  "id": "418780d0-541b-4ba3-8fc0-8fd7c10408b9",
+  "index": 12,
+  "keepWaitingPipelines": true,
+  "lastModifiedBy": "eruagar",
+  "limitConcurrent": false,
+  "name": "OSS-CHART-S2S",
+  "notifications": [],
+  "parameterConfig":   [
+        {
+      "default": "0.0.1-7",
+      "description": "Used to set the II version to deploy the system initially to",
+      "hasOptions": false,
+      "label": "II_INT_CHART_VERSION",
+      "name": "II_INT_CHART_VERSION",
+      "options":       [
+        {"value": "1.7.0-213"},
+        {"value": ""}
+      ],
+      "pinned": true,
+      "required": true
+    },
+        {
+      "default": "0.0.1-8",
+      "description": "Used to set the version to Upgrade To if set to 0.0.0 will get latest from the repo specified with the HELM_REPOSITORY_NAME parameter",
+      "hasOptions": false,
+      "label": "UG_INT_CHART_VERSION",
+      "name": "UG_INT_CHART_VERSION",
+      "options":       [
+        {"value": "0.0.0"},
+        {"value": ""}
+      ],
+      "pinned": false,
+      "required": true
+    },
+        {
+      "default": "false",
+      "description": "Set this parameter to true if you wish for the environment to be quarentined if the deployment flow false",
+      "hasOptions": false,
+      "label": "QUARANTINE_ENV",
+      "name": "QUARANTINE_ENV",
+      "options": [{"value": ""}],
+      "pinned": false,
+      "required": true
+    },
+        {
+      "default": "3600",
+      "description": "Time in seconds for the deployment manager to wait for the deployment to complete",
+      "hasOptions": false,
+      "label": "II_HELM_TIMEOUT",
+      "name": "II_HELM_TIMEOUT",
+      "options": [{"value": ""}],
+      "pinned": true,
+      "required": true
+    },
+        {
+      "default": "3600",
+      "description": "Time in seconds for the deployment manager to wait for the deployment to complete",
+      "hasOptions": false,
+      "label": "UG_HELM_TIMEOUT",
+      "name": "UG_HELM_TIMEOUT",
+      "options": [{"value": ""}],
+      "pinned": true,
+      "required": true
+    },
+        {
+      "default": "OSS/ci/site-values/site_values-0.0.1.yaml",
+      "description": "This is the Initial install Site Files file to be used from the integration CI Repo",
+      "hasOptions": false,
+      "label": "II_PATH_TO_SITE_VALUES",
+      "name": "II_PATH_TO_SITE_VALUES",
+      "options":       [
+        {"value": "honeypots/ci/environment/C7A016/eo-release-pipeline/site_values.yaml"},
+        {"value": ""}
+      ],
+      "pinned": true,
+      "required": true
+    },
+        {
+      "default": "OSS/ci/site-values/site_values-latest.yaml",
+      "description": "This is the Upgradel Site Files file to be used from the integration CI Repo",
+      "hasOptions": false,
+      "label": "UG_PATH_TO_SITE_VALUES",
+      "name": "UG_PATH_TO_SITE_VALUES",
+      "options": [{"value": ""}],
+      "pinned": true,
+      "required": true
+    },
+        {
+      "default": "app-idun-staging",
+      "description": "This is the label to search for that is attached to the environments in the Lockable Resource Plugin on Jenkins",
+      "hasOptions": false,
+      "label": "",
+      "name": "ENV_LABEL",
+      "options":       [
+        {"value": "honeypots_deploy"},
+        {"value": ""}
+      ],
+      "pinned": false,
+      "required": true
+    },
+        {
+      "default": "proj-eric-oss-drop-helm",
+      "description": "Helm Repo to Download the OSS Chart snapshot ",
+      "hasOptions": false,
+      "label": "HELM_REPOSITORY_NAME",
+      "name": "HELM_REPOSITORY_NAME",
+      "options":       [
+        {"value": "proj-eo-snapshot-helm"},
+        {"value": ""}
+      ],
+      "pinned": false,
+      "required": true
+    },
+        {
+      "default": "deploy",
+      "description": "Option to set the deployment type set either \"install\" or \"upgrade\"",
+      "hasOptions": false,
+      "label": "DEPLOYMENT_TYPE",
+      "name": "DEPLOYMENT_TYPE",
+      "options":       [
+        {"value": "deploy"},
+        {"value": ""}
+      ],
+      "pinned": false,
+      "required": true
+    },
+        {
+      "default": "true",
+      "description": "Option to Deploy SO for initial install, set either \"true\" or \"false\"",
+      "hasOptions": false,
+      "label": "II_SO_DEPLOY",
+      "name": "II_SO_DEPLOY",
+      "options": [{"value": ""}],
+      "pinned": true,
+      "required": true
+    },
+        {
+      "default": "true",
+      "description": "Option to Deploy SO for upgrade,  set either \"true\" or \"false\"",
+      "hasOptions": false,
+      "label": "UG_SO_DEPLOY",
+      "name": "UG_SO_DEPLOY",
+      "options": [{"value": ""}],
+      "pinned": true,
+      "required": true
+    },
+        {
+      "default": "true",
+      "description": "Option to Deploy Policy Framework for Initial install, set either \"true\" or \"false\"",
+      "hasOptions": false,
+      "label": "II_PF_DEPLOY",
+      "name": "II_PF_DEPLOY",
+      "options": [{"value": ""}],
+      "pinned": true,
+      "required": true
+    },
+        {
+      "default": "true",
+      "description": "Option to Deploy Policy Framework for Upgrade, set either \"true\" or \"false\"",
+      "hasOptions": false,
+      "label": "UG_PF_DEPLOY",
+      "name": "UG_PF_DEPLOY",
+      "options": [{"value": ""}],
+      "pinned": true,
+      "required": true
+    },
+        {
+      "default": "true",
+      "description": "Option to Deploy UDS for Initial install set either \"true\" or \"false\"",
+      "hasOptions": false,
+      "label": "II_UDS_DEPLOY",
+      "name": "II_UDS_DEPLOY",
+      "options": [{"value": ""}],
+      "pinned": true,
+      "required": true
+    },
+        {
+      "default": "true",
+      "description": "Option to Deploy UDS for Upgrade, set either \"true\" or \"false\"",
+      "hasOptions": false,
+      "label": "UG_UDS_DEPLOY",
+      "name": "UG_UDS_DEPLOY",
+      "options": [{"value": ""}],
+      "pinned": true,
+      "required": true
+    },
+        {
+      "default": "false",
+      "description": "Used to set the Helm Registry for EVNFM to onboard packages to",
+      "hasOptions": false,
+      "label": "HELM_REGISTRY_DEPLOY",
+      "name": "HELM_REGISTRY_DEPLOY",
+      "options":       [
+        {"value": "false"},
+        {"value": ""}
+      ],
+      "pinned": true,
+      "required": true
+    },
+        {
+      "default": "cloudman-user-creds",
+      "description": "Arm docker credential secret ro get access to the ar docker during the deployment using the deployment manager",
+      "hasOptions": false,
+      "label": "ARM_REGISTRY_USER_SECRET",
+      "name": "ARM_REGISTRY_USER_SECRET",
+      "options":       [
+        {"value": "eoadm100-user-creds"},
+        {"value": ""}
+      ],
+      "pinned": false,
+      "required": true
+    },
+        {
+      "default": "eo-integration-ci/honeypots/pooling/environments",
+      "description": "This is the directory within the Repo specified within the Gather-Env-Details Jenkins job where to find the pooling environment details",
+      "hasOptions": false,
+      "label": "ENV_DETAILS_DIR",
+      "name": "ENV_DETAILS_DIR",
+      "options":       [
+        {"value": "honeypots/pooling/environments"},
+        {"value": ""}
+      ],
+      "pinned": false,
+      "required": true
+    },
+        {
+      "default": "OSS Chart S2S",
+      "description": "Flow URL Tag is used when locking the invironment to add a tag to descript what has locked the environment for easier tracking",
+      "hasOptions": false,
+      "label": "FLOW_URL_TAG",
+      "name": "FLOW_URL_TAG",
+      "options":       [
+        {"value": "EO Chart S2S"},
+        {"value": ""}
+      ],
+      "pinned": false,
+      "required": true
+    },
+        {
+      "default": "60",
+      "description": "This is the time to wait for an Environment to become available. After the time expirers the job will fail out",
+      "hasOptions": false,
+      "label": "WAIT_TIME",
+      "name": "WAIT_TIME",
+      "options":       [
+        {"value": "60"},
+        {"value": ""}
+      ],
+      "pinned": false,
+      "required": true
+    },
+        {
+      "default": "true",
+      "description": "Used to specifiy if RBAC should be tested",
+      "hasOptions": false,
+      "label": "RBAC_TEST",
+      "name": "RBAC_TEST",
+      "options": [{"value": ""}],
+      "pinned": false,
+      "required": true
+    },
+        {
+      "default": "false",
+      "description": "Used to wait for UDS config backend to complete before proceding",
+      "hasOptions": false,
+      "label": "Wait for UDS",
+      "name": "UDS_WAIT",
+      "options": [{"value": ""}],
+      "pinned": false,
+      "required": true
+    }
+  ],
+  "schema": "1",
+  "stages":   [
+        {
+      "application": "ossapp",
+      "completeOtherBranchesThenFail": false,
+      "continuePipeline": true,
+      "failPipeline": false,
+      "name": "oss-chart-end-2-end-flow",
+      "pipeline": "ea65cb16-7cde-4d68-b344-4c4e257c40a0",
+      "pipelineParameters":       {
+        "ARM_REGISTRY_USER_SECRET": "${trigger['parameters']['ARM_REGISTRY_USER_SECRET']}",
+        "DEPLOYMENT_TYPE": "${trigger['parameters']['DEPLOYMENT_TYPE']}",
+        "ENV_DETAILS_DIR": "${trigger['parameters']['ENV_DETAILS_DIR']}",
+        "ENV_LABEL": "${trigger['parameters']['ENV_LABEL']}",
+        "FLOW_URL_TAG": "${trigger['parameters']['FLOW_URL_TAG']}",
+        "HELM_REGISTRY_DEPLOY": "${trigger['parameters']['HELM_REGISTRY_DEPLOY']}",
+        "HELM_REPOSITORY_NAME": "${trigger['parameters']['HELM_REPOSITORY_NAME']}",
+        "IDAM_INGRESS_NAME_POST": "eric-sec-access-mgmt-ingress",
+        "II_HELM_TIMEOUT": "${trigger['parameters']['II_HELM_TIMEOUT']}",
+        "II_INT_CHART_VERSION": "${trigger['parameters']['II_INT_CHART_VERSION']}",
+        "II_PATH_TO_SITE_VALUES": "${trigger['parameters']['II_PATH_TO_SITE_VALUES']}",
+        "II_PF_DEPLOY": "${trigger['parameters']['II_PF_DEPLOY']}",
+        "II_SO_DEPLOY": "${trigger['parameters']['II_SO_DEPLOY']}",
+        "II_UDS_DEPLOY": "${trigger['parameters']['II_UDS_DEPLOY']}",
+        "RBAC_TEST": "${trigger['parameters']['RBAC_TEST']}",
+        "SPINNAKER_FLOW_ID": "${execution['id']}",
+        "UG_HELM_TIMEOUT": "${trigger['parameters']['UG_HELM_TIMEOUT']}",
+        "UG_INT_CHART_VERSION": "${trigger['parameters']['UG_INT_CHART_VERSION']}",
+        "UG_PATH_TO_SITE_VALUES": "${trigger['parameters']['UG_PATH_TO_SITE_VALUES']}",
+        "UG_PF_DEPLOY": "${trigger['parameters']['UG_PF_DEPLOY']}",
+        "UG_SO_DEPLOY": "${trigger['parameters']['UG_SO_DEPLOY']}",
+        "UG_UDS_DEPLOY": "${trigger['parameters']['UG_UDS_DEPLOY']}",
+        "WAIT_TIME": "${trigger['parameters']['WAIT_TIME']}"
+      },
+      "refId": "1",
+      "requisiteStageRefIds": [],
+      "type": "pipeline",
+      "waitForCompletion": true
+    },
+        {
+      "application": "ossapp",
+      "completeOtherBranchesThenFail": false,
+      "continuePipeline": true,
+      "failPipeline": false,
+      "name": "Redeploy Env for App Staging",
+      "pipeline": "5387beec-02b8-4dec-8dac-e22efd71904e",
+      "pipelineParameters":       {
+        "HELM_REPOSITORY_NAME": "${trigger['parameters']['HELM_REPOSITORY_NAME']}",
+        "HELM_TIMEOUT": "${trigger['parameters'][\"II_HELM_TIMEOUT\"]}",
+        "IAM_HOSTNAME": "${#stage(\"oss-chart-end-2-end-flow\")[\"context\"][\"IAM_HOSTNAME\"]}",
+        "INT_CHART_VERSION": "${trigger['parameters'][\"II_INT_CHART_VERSION\"]}",
+        "KUBE_CONFIG": "${#stage(\"oss-chart-end-2-end-flow\")[\"context\"][\"KUBE_CONFIG\"]}",
+        "NAMESPACE": "${#stage(\"oss-chart-end-2-end-flow\")[\"context\"][\"NAMESPACE\"]}",
+        "PATH_TO_CERTIFICATES_FILES ": "eo-integration-ci/${#stage(\"oss-chart-end-2-end-flow\")[\"context\"][\"PATH_TO_CERTIFICATES_FILES\"]}",
+        "PATH_TO_SITE_VALUES": "${trigger['parameters'][\"II_PATH_TO_SITE_VALUES\"]}",
+        "PF_HOSTNAME": "${#stage(\"oss-chart-end-2-end-flow\")[\"context\"][\"EO_PF_HOSTNAME\"]}",
+        "RESOURCE_NAME": "${#stage(\"oss-chart-end-2-end-flow\")[\"context\"][\"RESOURCE_NAME\"]}",
+        "SO_HOSTNAME": "${#stage(\"oss-chart-end-2-end-flow\")[\"context\"][\"EO_SO_HOSTNAME\"]}",
+        "UDS_HOSTNAME": "${#stage(\"oss-chart-end-2-end-flow\")[\"context\"][\"EO_UDS_HOSTNAME\"]}"
+      },
+      "refId": "2",
+      "requisiteStageRefIds": ["3"],
+      "stageEnabled":       {
+        "expression": "\"${#stage('Quarantine Env')['status']}\" == \"SKIPPED\"",
+        "type": "expression"
+      },
+      "type": "pipeline",
+      "waitForCompletion": false
+    },
+        {
+      "completeOtherBranchesThenFail": false,
+      "continuePipeline": true,
+      "failPipeline": false,
+      "job": "OSS-Integration-Quarantine-Environment",
+      "master": "oss-aispinn-fem5s11-eiffel052",
+      "name": "Quarantine Env",
+      "parameters": {"ENV_NAME": "${#stage(\"eo-chart-end-2-end-test-flow\")[\"context\"][\"RESOURCE_NAME\"]}"},
+      "refId": "3",
+      "requisiteStageRefIds": ["1"],
+      "stageEnabled":       {
+        "expression": "\"${trigger['parameters']['QUARANTINE_ENV']}\" == \"true\" and \"${#stage('eo-chart-end-2-end-test-flow')['status']}\" == \"FAILED_CONTINUE\"",
+        "type": "expression"
+      },
+      "type": "jenkins"
+    },
+        {
+      "name": "Flow Completed",
+      "preconditions":       [
+                {
+          "context": {"expression": "\"${#stage('oss-chart-end-2-end-flow')['status']}\" == \"SUCCEEDED\""},
+          "failPipeline": true,
+          "type": "expression"
+        },
+                {
+          "context": {"expression": "\"${#stage('Quarantine Env')['status']}\" == \"SKIPPED\" and \"${#stage('Redeploy Env for App Staging')['status']}\" == \"SUCCEEDED\" or \"${#stage('Quarantine Env')['status']}\" == \"SUCCEEDED\" and \"${#stage('Redeploy Env for App Staging')['status']}\" == \"SKIPPED\""},
+          "failPipeline": true,
+          "type": "expression"
+        }
+      ],
+      "refId": "4",
+      "requisiteStageRefIds":       [
+        "2",
+        "3"
+      ],
+      "type": "checkPreconditions"
+    }
+  ],
+  "triggers": [  {
+    "cronExpression": "0 0 23 ? * MON-FRI *",
+    "enabled": false,
+    "id": "4cad6173-5029-4698-bb1a-7159959a86ca",
+    "type": "cron"
+  }],
+  "updateTs": "1642068090096"
+}

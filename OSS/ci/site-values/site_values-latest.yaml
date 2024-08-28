@@ -1,0 +1,101 @@
+global:
+  hosts:
+    so: "SO_HOST_REPLACE"
+    uds: "UDS_HOST_REPLACE"
+    iam: "IAM_HOST_REPLACE"
+    pf: "PF_HOST_REPLACE"
+    gas: "GAS_HOST_REPLACE"
+  registry:
+    # If deploying from the director node on a CCD environment, the url can be retrieved using:
+    # kubectl get ingress eric-lcm-container-registry-ingress -n kube-system -o jsonpath="{.spec.tls[*].hosts[0]}"; echo
+    url: "armdocker.rnd.ericsson.se"
+    #
+    # If deploying on a CCD environment with version < 2.7.0 credentials are stored as Kubernetes secrets in kube-system namespace.
+    # The username can be retrieved using the following command
+    # kubectl get secrets cr-registry-credentials -n kube-system -o jsonpath="{.data.custom-user}" | base64 -d; echo
+    #
+    # If deploying on a CCD environment with version >= 2.7.0 credentials are encrypted with htpasswd automatically, and can be retrieved using the following Openstack command
+    # openstack stack output show "stack-name" container_registry_custom_user_id -f json | jq '.output_value' -M -r
+    username: "USERNAME_REPLACE"
+    #
+    # If deploying on a CCD environment with version < 2.7.0 credentials are stored as Kubernetes secrets in kube-system namespace.
+    # The password can be retrieved using the following command
+    # kubectl get secrets cr-registry-credentials -n kube-system -o jsonpath="{.data.custom-pass}" | base64 -d; echo
+    #
+    # If deploying on a CCD environment with version >= 2.7.0 credentials are encrypted with htpasswd automatically, and can be retrieved using the following Openstack command
+    # openstack stack output show "stack-name" container_registry_custom_pw -f json | jq '.output_value' -M -r
+    password: "PASSWORD_REPLACE"
+    pullSecret: "armdocker-login-secret"
+  support:
+    ipv6:
+      enabled: false
+  timezone: UTC
+  pullSecret: "armdocker-login-secret"
+
+# Warning! If changing these application tags from true to false and that application
+# is already installed, then that application will be removed and data will be lost!
+tags:
+  so: SO_DEPLOY_REPLACE
+  pf: PF_DEPLOY_REPLACE
+  uds: UDS_DEPLOY_REPLACE
+  platform: PLATFORM_DEPLOY_REPLACE
+  adc: ADC_DEPLOY_REPLACE
+  dmm: DMM_DEPLOY_REPLACE
+  th: TH_DEPLOY_REPLACE
+
+system-user:
+  credentials:
+    username: "system-user"
+    password: "Ericsson123!"
+
+# Enabling stubs from SO
+stubs:
+  enabled: true
+
+# This is the same as the global.iam hostname
+eric-sec-access-mgmt:
+  ingress:
+    hostname: "IAM_HOST_REPLACE"
+  statefulset:
+    replicas: 2
+
+# Fill only if deploying Service Orchestration (SO)
+eric-eo-so:
+  stubs:
+    enabled: true
+  defaultUser:
+    username: "so-user"
+    password: "Ericsson123!"
+
+# Fill only if deploying EO UDS Orchestration (EO UDS)
+eric-oss-uds:
+  defaultUser:
+    username: "uds-user"
+    password: "Ericsson123!"
+
+# Fill only if deploying PF Orchestration (PF)
+eric-oss-pf:
+  defaultUser:
+    username: "pf-user"
+    password: "Ericsson123!"
+
+# Please refer to the dimensioning guide for the appropriate size of the BRO volume
+# The size will be dependent on which applications are being deployed
+eric-ctrl-bro:
+  persistence:
+    persistentVolumeClaim:
+      size: "20Gi"
+
+eric-data-search-engine:
+  service:
+    network:
+      protocol:
+        IPv6: false
+
+gas:
+    defaultUser:
+        username: "gas-user"
+        password: "Ericsson123!"
+
+notification-service:
+    enabled: true

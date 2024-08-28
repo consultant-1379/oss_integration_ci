@@ -1,0 +1,208 @@
+modelVersion: 2.0
+
+description: "Honey Pots: OSS Pipeline"
+
+docker-images:
+  - adp-release-auto: armdocker.rnd.ericsson.se/proj-adp-cicd-drop/bob-adp-release-auto:latest
+  - adp-helm-install: armdocker.rnd.ericsson.se/proj-adp-cicd-drop/bob-py3kubehelmbuilder:latest
+  # Hard coding the value for deployment manager 
+  #- deployment-manager: ${deployment-manager-image-full-name}:${var.int_chart-version}
+  - deployment-manager: ${deployment-manager-image-full-name}:1.17.0-26
+  - csar-builder: armdocker.rnd.ericsson.se/proj-am/releases/eric-am-package-manager:2.0.25
+
+properties:
+  - helm-charts-dir: charts
+  - helm-chart-name: ${env.APP_NAME}
+  - kube-config-path: ./admin.conf
+  - chart-repo-oss: https://arm.seli.gic.ericsson.se/artifactory/proj-eric-oss-drop-helm/
+  - helm-chart-artifactory-url: https://arm.seli.gic.ericsson.se/artifactory/
+  - deployment-manager-image-name: deployment-manager
+  - image-registry: armdocker.rnd.ericsson.se
+  - deployment-manager-image-repopath: proj-eo/common
+  - deployment-manager-image-full-name: ${image-registry}/${deployment-manager-image-repopath}/${deployment-manager-image-name}
+  - deployment-manager-flags: "--volume /var/run/docker.sock:/var/run/docker.sock
+                               --volume ${env.PWD}:/workdir
+                               --volume /etc/hosts:/etc/hosts"
+
+env:
+  - PWD
+  - NAMESPACE
+  - CHART_NAME
+  - CHART_REPO
+  - INT_CHART_VERSION
+  - SNAP_INT_CHART_VERSION
+  - DEPLOYMENT_TYPE
+  - PATH_TO_CERTIFICATES_FILES
+  - FULL_PATH_TO_SITE_VALUES_FILE
+  - FUNCTIONAL_USER_USERNAME
+  - FUNCTIONAL_USER_PASSWORD
+  - SO_DEPLOY
+  - UDS_DEPLOY
+  - PF_DEPLOY
+  - ADC_DEPLOY
+  - DMM_DEPLOY
+  - TH_DEPLOY
+  - PLATFORM_DEPLOY
+  - PF_HOSTNAME
+  - UDS_HOSTNAME
+  - SO_HOSTNAME
+  - GAS_HOSTNAME
+  - IAM_HOSTNAME
+  - ADC_HOSTNAME
+  - DMM_HOSTNAME
+  - TH_HOSTNAME
+  - ENV_NAME
+  - ENV_DETAILS_DIR
+  - HELM_TIMEOUT
+  - JIRA
+  - HELM_REPOSITORY_NAME
+  - TIME
+  - JOB
+  - APP_NAME (default="eric-oss")
+
+var:
+  - int_chart-version
+  - helm-chart-repo
+  - secret-list
+  - oss-version
+
+rules:
+  set-helm-repository:
+    - task: set-helm-repository
+      cmd: echo ${helm-chart-artifactory-url}/${env.HELM_REPOSITORY_NAME} > .bob/var.helm-chart-repo
+
+  fetch-chart:
+    - task: helm-pull
+      docker-image: adp-release-auto
+      cmd: bash -c 'helm repo add oss ${var.helm-chart-repo} --username ${env.FUNCTIONAL_USER_USERNAME} --password "${env.FUNCTIONAL_USER_PASSWORD}";
+          helm fetch --version ${env.INT_CHART_VERSION} oss/${helm-chart-name}'
+        
+        
+  get-latest-chart-version_from_drop_repo:
+    - task: helm-search
+      docker-image: adp-release-auto
+      cmd: bash -c 'helm repo add oss ${chart-repo-oss} --username ${env.FUNCTIONAL_USER_USERNAME} --password "${env.FUNCTIONAL_USER_PASSWORD}";
+          helm search repo oss --devel | grep "eric-oss " | cut -f2 > .bob/var.oss-version'
+    - task: write-to-properties
+      cmd: echo "INT_CHART_VERSION:${var.oss-version}" >> artifact.properties
+
+  prepare-workdir:
+    - task: set-chart-version
+      cmd: 'echo ${env.INT_CHART_VERSION} > .bob/var.int_chart-version'
+    - task: create-csar
+      docker-image: csar-builder
+      cmd: generate --name test-deploy-${env.INT_CHART_VERSION} --helm ${helm-chart-name}-${env.INT_CHART_VERSION}.tgz --no-images
+    - task: deployment-manager-init
+      docker-image: deployment-manager
+      docker-flags:
+        - ${deployment-manager-flags}
+      cmd: init
+    - task: copy-certificate-files
+      cmd: cp -r ${env.PWD}/${env.PATH_TO_CERTIFICATES_FILES}/* ${env.PWD}/certificates
+
+  prepare-site-values:
+    - task: deployment-manager-prepare
+      docker-image: deployment-manager
+      docker-flags:
+        - ${deployment-manager-flags}
+      cmd: prepare --namespace ${env.NAMESPACE}
+    - task: copy-site-values
+      cmd: \cp -f ${env.PWD}/${env.FULL_PATH_TO_SITE_VALUES_FILE} ${env.PWD}/site_values_${env.INT_CHART_VERSION}.yaml
+
+  update-site-values:
+    - task: substitute-registry-details
+      cmd:
+        - perl -pi -e 's/USERNAME_REPLACE/'${env.FUNCTIONAL_USER_USERNAME}'/' ${env.PWD}/site_values_${env.INT_CHART_VERSION}.yaml
+        - perl -pi -e 's/PASSWORD_REPLACE/'${env.FUNCTIONAL_USER_PASSWORD}'/' ${env.PWD}/site_values_${env.INT_CHART_VERSION}.yaml
+    - task: substitute-application-deployment-option
+      cmd:
+        - perl -pi -e 's/SO_DEPLOY_REPLACE/'${env.SO_DEPLOY}'/' ${env.PWD}/site_values_${env.INT_CHART_VERSION}.yaml
+        - perl -pi -e 's/UDS_DEPLOY_REPLACE/'${env.UDS_DEPLOY}'/' ${env.PWD}/site_values_${env.INT_CHART_VERSION}.yaml
+        - perl -pi -e 's/PF_DEPLOY_REPLACE/'${env.PF_DEPLOY}'/' ${env.PWD}/site_values_${env.INT_CHART_VERSION}.yaml
+        - perl -pi -e 's/PLATFORM_DEPLOY_REPLACE/'${env.PLATFORM_DEPLOY}'/' ${env.PWD}/site_values_${env.INT_CHART_VERSION}.yaml
+        - perl -pi -e 's/ADC_DEPLOY_REPLACE/'${env.ADC_DEPLOY}'/' ${env.PWD}/site_values_${env.INT_CHART_VERSION}.yaml
+        - perl -pi -e 's/DMM_DEPLOY_REPLACE/'${env.DMM_DEPLOY}'/' ${env.PWD}/site_values_${env.INT_CHART_VERSION}.yaml
+        - perl -pi -e 's/TH_DEPLOY_REPLACE/'${env.TH_DEPLOY}'/' ${env.PWD}/site_values_${env.INT_CHART_VERSION}.yaml
+    - task: substitute-application-hosts
+      cmd: bash -c """
+        if [[ ${env.SO_HOSTNAME} != "default" ]]; then
+          perl -pi -e 's/SO_HOST_REPLACE/'${env.SO_HOSTNAME}'/' ${env.PWD}/site_values_${env.INT_CHART_VERSION}.yaml;
+        fi;
+        if [[ ${env.UDS_HOSTNAME} != "default" ]]; then
+          perl -pi -e 's/UDS_HOST_REPLACE/'${env.UDS_HOSTNAME}'/' ${env.PWD}/site_values_${env.INT_CHART_VERSION}.yaml;
+        fi;
+        if [[ ${env.IAM_HOSTNAME} != "default" ]]; then
+          perl -pi -e 's/IAM_HOST_REPLACE/'${env.IAM_HOSTNAME}'/' ${env.PWD}/site_values_${env.INT_CHART_VERSION}.yaml;
+        fi;
+        if [[ ${env.PF_HOSTNAME} != "default" ]]; then
+          perl -pi -e 's/PF_HOST_REPLACE/'${env.PF_HOSTNAME}'/' ${env.PWD}/site_values_${env.INT_CHART_VERSION}.yaml;
+        fi;
+        if [[ ${env.GAS_HOSTNAME} != "default" ]]; then
+          perl -pi -e 's/GAS_HOST_REPLACE/'${env.GAS_HOSTNAME}'/' ${env.PWD}/site_values_${env.INT_CHART_VERSION}.yaml;
+        fi"""
+
+  execute-deployment-manager:
+    - task: deploy-helm-chart
+      docker-image: deployment-manager
+      docker-flags:
+        - "--user 0:0"
+        - ${deployment-manager-flags}
+      cmd: ${env.DEPLOYMENT_TYPE} --namespace ${env.NAMESPACE} --helm-timeout ${env.HELM_TIMEOUT}
+
+  gather-deployment-logs:
+    - task: gather-logs
+      docker-image: deployment-manager
+      docker-flags:
+        - ${deployment-manager-flags}
+      cmd: collect-logs --namespace ${env.NAMESPACE}
+
+  check-deployment-status:
+    - task: check-status
+      docker-image: adp-helm-install
+      cmd: ${env.PWD}/OSS/ci/jenkins/scripts/check_deployment_status.sh ${env.NAMESPACE} ${env.INT_CHART_VERSION} ${env.SNAP_INT_CHART_VERSION} ${kube-config-path}
+
+  gather-environment-details:
+    - task: gather-environment-details
+      cmd: bash -c '
+        if [ -f ${env.ENV_DETAILS_DIR}/${env.ENV_NAME}.conf ]; then
+           echo "Gathering details for ${env.ENV_NAME}";
+           cat ${env.ENV_DETAILS_DIR}/${env.ENV_NAME}.conf > artifact.properties;
+        else
+           echo "Unable to file file associated with ${env.ENV_NAME}";
+           exit 1;
+        fi'
+
+  remove-helm2-installed-release:
+    - task: remove-helm2-release-chart
+      docker-image: adp-helm-install
+      cmd: /bin/bash -c "if /usr/share/helm/2.x/helm status ${helm-chart-name}-${env.NAMESPACE} --kubeconfig ${kube-config-path}; then /usr/share/helm/2.x/helm delete --purge ${helm-chart-name}-${env.NAMESPACE} --kubeconfig ${kube-config-path}; fi"
+
+  remove-helm3-installed-release:
+    - task: remove-helm3-release-chart
+      docker-image: adp-helm-install
+      cmd: /bin/bash -c "if helm status ${helm-chart-name}-${env.NAMESPACE} --kubeconfig ${kube-config-path} --namespace ${env.NAMESPACE}; then helm delete ${helm-chart-name}-${env.NAMESPACE} --kubeconfig ${kube-config-path} --namespace ${env.NAMESPACE}; fi"
+
+  remove-installed-pvcs:
+    - task: remove-pvcs
+      docker-image: adp-helm-install
+      cmd: /bin/bash -c "kubectl delete pvc --all --wait=true -n ${env.NAMESPACE} --kubeconfig ${kube-config-path} &&
+        if ! kubectl get pvc -n ${env.NAMESPACE} --kubeconfig ${kube-config-path} 2>&1 | grep -q 'No resources found'; then
+        kubectl wait --for=delete pvc --all --timeout=60s -n ${env.NAMESPACE} --kubeconfig ${kube-config-path};
+        fi"
+
+  remove-tls-secrets:
+    - task: get-secrets
+      docker-image: adp-helm-install
+      cmd: kubectl get secrets -n ${env.NAMESPACE} --kubeconfig ${kube-config-path} | grep 'tls-secret\|iam-cacert-secret' | awk '{print $1}' > .bob/var.secret-list
+    - task: remove-secrets
+      docker-image: adp-helm-install
+      cmd: /bin/bash -c 'for SECRET in $(cat .bob/var.secret-list);
+          do echo "Removing $SECRET";
+          kubectl delete -n ${env.NAMESPACE} --kubeconfig ${kube-config-path} secret $SECRET;
+        done;'
+
+  uds-backend-job-wait:
+    - task: waiting-for-uds-job
+      docker-image: adp-helm-install
+      cmd: ${env.PWD}/OSS/ci/jenkins/scripts/uds_backend_job_wait.sh ${env.NAMESPACE} ${kube-config-path} ${env.TIME} ${env.JOB}
+

@@ -1,0 +1,969 @@
+{
+  "keepWaitingPipelines": true,
+  "parameterConfig":   [
+        {
+      "default": "0.0.0",
+      "description": "Used to set the II Base Chart version to deploy the system initially to",
+      "hasOptions": false,
+      "label": "II_BASE_CHART_VERSION",
+      "name": "II_BASE_CHART_VERSION",
+      "options": [{"value": ""}],
+      "pinned": false,
+      "required": false
+    },
+        {
+      "default": "false",
+      "description": "Force the environment to be re-installed whether it is good or bad, options true or false.",
+      "hasOptions": false,
+      "label": "FORCE_REDEPLOY",
+      "name": "FORCE_REDEPLOY",
+      "options": [{"value": ""}],
+      "pinned": false,
+      "required": true
+    },
+        {
+      "default": "false",
+      "description": "Set this parameter to true if you wish for the environment to be quarentined if the deployment flow false",
+      "hasOptions": false,
+      "label": "QUARANTINE_ENV",
+      "name": "QUARANTINE_ENV",
+      "options": [{"value": ""}],
+      "pinned": false,
+      "required": true
+    },
+        {
+      "default": "false",
+      "description": "Set this to true to stop all deliveries being delivered to the EO Chart. Application's can still execute the flow but will not be delivered to the EO Chart at the end. Options true or false.",
+      "hasOptions": false,
+      "label": "SPRINT_CLOSED",
+      "name": "SPRINT_CLOSED",
+      "options": [{"value": ""}],
+      "pinned": false,
+      "required": true
+    },
+        {
+      "default": "3600",
+      "description": "Time in seconds for the deployment manager to wait for the deployment to complete Initial install",
+      "hasOptions": false,
+      "label": "II_HELM_TIMEOUT",
+      "name": "II_HELM_TIMEOUT",
+      "options": [{"value": ""}],
+      "pinned": true,
+      "required": true
+    },
+        {
+      "default": "2700",
+      "description": "Time in seconds for the deployment manager to wait for the deployment to complete upgrade",
+      "hasOptions": false,
+      "label": "UG_HELM_TIMEOUT",
+      "name": "UG_HELM_TIMEOUT",
+      "options": [{"value": ""}],
+      "pinned": true,
+      "required": true
+    },
+        {
+      "default": "",
+      "description": "Name of the chart within the requirements.yaml",
+      "hasOptions": false,
+      "label": "CHART_NAME",
+      "name": "CHART_NAME",
+      "options": [{"value": ""}],
+      "pinned": false,
+      "required": false
+    },
+        {
+      "default": "",
+      "description": "Version of the Chart to be added to the requirements.yaml ",
+      "hasOptions": false,
+      "label": "CHART_VERSION",
+      "name": "CHART_VERSION",
+      "options": [{"value": ""}],
+      "pinned": false,
+      "required": false
+    },
+        {
+      "default": "",
+      "description": "Repo of the Chart as in the requirements.yaml",
+      "hasOptions": false,
+      "label": "CHART_REPO",
+      "name": "CHART_REPO",
+      "options": [{"value": ""}],
+      "pinned": false,
+      "required": false
+    },
+        {
+      "default": "proj-eric-oss-ci-internal-helm",
+      "description": "Helm Repo to Download the Base Chart snapshot ",
+      "hasOptions": false,
+      "label": "SNAPSHOT_HELM_REPOSITORY_NAME",
+      "name": "SNAPSHOT_HELM_REPOSITORY_NAME",
+      "options": [{"value": ""}],
+      "pinned": true,
+      "required": true
+    },
+        {
+      "default": "proj-eric-oss-drop-helm",
+      "description": "Helm Repo to Download the Released Base Chart",
+      "hasOptions": false,
+      "label": "DROP_HELM_REPOSITORY_NAME",
+      "name": "DROP_HELM_REPOSITORY_NAME",
+      "options": [{"value": ""}],
+      "pinned": true,
+      "required": true
+    },
+        {
+      "default": "OSS/ci/site-values/site_values-latest.yaml",
+      "description": "The Path where all the necessary site values are located for the install",
+      "hasOptions": false,
+      "label": "II_PATH_TO_SITE_VALUES",
+      "name": "II_PATH_TO_SITE_VALUES",
+      "options": [{"value": ""}],
+      "pinned": true,
+      "required": false
+    },
+        {
+      "default": "OSS/ci/site-values/site_values-latest.yaml",
+      "description": "The Path where all the necessary site values are located for the upgrade",
+      "hasOptions": false,
+      "label": "UG_PATH_TO_SITE_VALUES",
+      "name": "UG_PATH_TO_SITE_VALUES",
+      "options": [{"value": ""}],
+      "pinned": false,
+      "required": true
+    },
+        {
+      "default": "true",
+      "description": "Option to Deploy Policy Framework set either \"true\" or \"false\"",
+      "hasOptions": false,
+      "label": "PF_DEPLOY",
+      "name": "PF_DEPLOY",
+      "options": [{"value": ""}],
+      "pinned": true,
+      "required": true
+    },
+        {
+      "default": "true",
+      "description": "Option to Deploy SO set either \"true\" or \"false\"",
+      "hasOptions": false,
+      "label": "SO_DEPLOY",
+      "name": "SO_DEPLOY",
+      "options": [{"value": ""}],
+      "pinned": true,
+      "required": true
+    },
+        {
+      "default": "true",
+      "description": "Option to Deploy UDS set either \"true\" or \"false\"",
+      "hasOptions": false,
+      "label": "UDS_DEPLOY",
+      "name": "UDS_DEPLOY",
+      "options": [{"value": ""}],
+      "pinned": true,
+      "required": true
+    },
+        {
+      "default": "true",
+      "description": "Option to Deploy PLATFORM set either \"true\" or \"false\"",
+      "hasOptions": false,
+      "label": "PLATFORM_DEPLOY",
+      "name": "PLATFORM_DEPLOY",
+      "options": [{"value": ""}],
+      "pinned": true,
+      "required": true
+    },
+        {
+      "default": "eo-integration-ci/honeypots/pooling/environments",
+      "description": "This is the directory within the Repo specified within the Gather-Env-Details Jenkins job where to find the pooling environment details",
+      "hasOptions": false,
+      "label": "ENV_DETAILS_DIR",
+      "name": "ENV_DETAILS_DIR",
+      "options": [{"value": ""}],
+      "pinned": false,
+      "required": true
+    },
+        {
+      "default": "app-idun-staging",
+      "description": "This is the label to search for that is attached to the environments in the Lockable Resource Plugin on Jenkins",
+      "hasOptions": false,
+      "label": "",
+      "name": "ENV_LABEL",
+      "options": [{"value": ""}],
+      "pinned": false,
+      "required": true
+    },
+        {
+      "default": "OSS Application Staging",
+      "description": "Flow URL Tag is used when locking the invironment to add a tag to descript what has locked the environment for easier tracking",
+      "hasOptions": false,
+      "label": "FLOW_URL_TAG",
+      "name": "FLOW_URL_TAG",
+      "options": [{"value": ""}],
+      "pinned": false,
+      "required": true
+    },
+        {
+      "default": "120",
+      "description": "This is the time to wait for an Environment to become available. After the time expirers the job will fail out",
+      "hasOptions": false,
+      "label": "WAIT_TIME",
+      "name": "WAIT_TIME",
+      "options": [{"value": ""}],
+      "pinned": false,
+      "required": true
+    },
+        {
+      "default": "cloudman-user-creds",
+      "description": "Arm docker credential secret to get access to the ar docker during the deployment using the deployment manager",
+      "hasOptions": false,
+      "label": "FUNCTIONAL_USER_SECRET",
+      "name": "FUNCTIONAL_USER_SECRET",
+      "options": [{"value": ""}],
+      "pinned": false,
+      "required": true
+    },
+        {
+      "default": "true",
+      "description": "Used to specifiy if RBAC should be tested",
+      "hasOptions": false,
+      "label": "RBAC_TEST",
+      "name": "RBAC_TEST",
+      "options": [{"value": ""}],
+      "pinned": false,
+      "required": true
+    }
+  ],
+  "lastModifiedBy": "emanjoh",
+  "index": 1,
+  "triggers":   [
+        {
+      "enabled": false,
+      "job": "EO-data-visualizer-kb-release",
+      "master": "oss-aispinn-fem5s11-eiffel052",
+      "propertyFile": "artifact.properties",
+      "type": "jenkins"
+    },
+        {
+      "enabled": false,
+      "job": "usermgmt_Release",
+      "master": "oss-aispinn-fem2s11-eiffel052",
+      "propertyFile": "artifact.properties",
+      "type": "jenkins"
+    },
+        {
+      "enabled": false,
+      "job": "usermgmt-ui_Release",
+      "master": "oss-aispinn-fem2s11-eiffel052",
+      "propertyFile": "artifact.properties",
+      "type": "jenkins"
+    },
+        {
+      "enabled": false,
+      "job": "eai-workspace_Build_release",
+      "master": "oss-aispinn-fem2s11-eiffel052",
+      "propertyFile": "artifact.properties",
+      "type": "jenkins"
+    },
+        {
+      "enabled": false,
+      "job": "api-gateway_Release",
+      "master": "oss-aispinn-fem2s11-eiffel052",
+      "propertyFile": "artifact.properties",
+      "type": "jenkins"
+    },
+        {
+      "enabled": false,
+      "job": "SO_baseline_Staging",
+      "master": "oss-aispinn-fem2s11-eiffel052",
+      "propertyFile": "artifact.properties",
+      "type": "jenkins"
+    },
+        {
+      "enabled": false,
+      "job": "SO_baseline_Release",
+      "master": "oss-aispinn-fem2s11-eiffel052",
+      "propertyFile": "artifact.properties",
+      "type": "jenkins"
+    },
+        {
+      "enabled": false,
+      "job": "pf_baseline_Release",
+      "master": "oss-aispinn-fem2s11-eiffel052",
+      "propertyFile": "artifact.properties",
+      "type": "jenkins"
+    },
+        {
+      "enabled": false,
+      "job": "PF_baseline_Staging",
+      "master": "oss-aispinn-fem2s11-eiffel052",
+      "propertyFile": "artifact.properties",
+      "type": "jenkins"
+    },
+        {
+      "enabled": false,
+      "job": "udsBaseline_Staging",
+      "master": "oss-aispinn-fem2s11-eiffel052",
+      "propertyFile": "artifact.properties",
+      "type": "jenkins"
+    },
+        {
+      "enabled": false,
+      "job": "udsBaseline_Release",
+      "master": "oss-aispinn-fem2s11-eiffel052",
+      "propertyFile": "artifact.properties",
+      "type": "jenkins"
+    },
+        {
+      "enabled": false,
+      "job": "VMVNFM-EO-Release",
+      "master": "oss-fem18s11-eiffel004",
+      "propertyFile": "artifact.properties",
+      "type": "jenkins"
+    },
+        {
+      "enabled": false,
+      "job": "dmaap_kafka_Release",
+      "master": "oss-aispinn-fem2s11-eiffel052",
+      "propertyFile": "artifact.properties",
+      "type": "jenkins"
+    },
+        {
+      "enabled": false,
+      "job": "dmaap_Release",
+      "master": "oss-aispinn-fem2s11-eiffel052",
+      "propertyFile": "artifact.properties",
+      "type": "jenkins"
+    },
+        {
+      "enabled": false,
+      "job": "EO_GR-ORCHESTRATOR_RELEASE",
+      "master": "oss-aispinn-fem5s11-eiffel052",
+      "propertyFile": "artifact.properties",
+      "type": "jenkins"
+    },
+        {
+      "enabled": false,
+      "job": "EO_COMMON_BR_AGENT_RELEASE",
+      "master": "oss-aispinn-fem5s11-eiffel052",
+      "propertyFile": "artifact.properties",
+      "type": "jenkins"
+    }
+  ],
+  "appConfig": {},
+  "limitConcurrent": false,
+  "application": "ossapp",
+  "name": "PRODUCT-STAGING",
+  "stages":   [
+        {
+      "completeOtherBranchesThenFail": false,
+      "continuePipeline": false,
+      "failPipeline": true,
+      "job": "OSS-Integration-Get-Application-Tags",
+      "master": "oss-aispinn-fem5s11-eiffel052",
+      "name": "Get Application Tags",
+      "parameters":       {
+        "CHART_NAME": "${#stage(\"Check Parameters\")[\"context\"][\"CHART_NAME\"]}",
+        "CHART_VERSION": "${#stage(\"Check Parameters\")[\"context\"][\"CHART_VERSION\"]}",
+        "SLAVE_LABEL": "evo_docker_engine_gic_IDUN"
+      },
+      "propertyFile": "artifact.properties",
+      "refId": "13",
+      "requisiteStageRefIds": ["45"],
+      "type": "jenkins"
+    },
+        {
+      "continuePipeline": false,
+      "failPipeline": true,
+      "job": "OSS-Integration-Check-Parameters",
+      "master": "oss-aispinn-fem5s11-eiffel052",
+      "name": "Check Parameters",
+      "parameters":       {
+        "CHART_NAME": "${trigger['properties']['CHART_NAME']}",
+        "CHART_REPO": "${trigger['properties']['CHART_REPO']}",
+        "CHART_VERSION": "${trigger['properties']['CHART_VERSION']}",
+        "INT_CHART_VERSION": "${trigger['properties']['EO_INTEGRATION_CHART_VERSION']}",
+        "PARA_CHART_NAME": "${trigger['parameters']['CHART_NAME']}",
+        "PARA_CHART_REPO": "${trigger['parameters']['CHART_REPO']}",
+        "PARA_CHART_VERSION": "${trigger['parameters']['CHART_VERSION']}",
+        "PARA_INT_CHART_VERSION": "",
+        "SLAVE_LABEL": "evo_docker_engine_gic_IDUN"
+      },
+      "propertyFile": "artifact.properties",
+      "refId": "15",
+      "requisiteStageRefIds": ["19"],
+      "type": "jenkins"
+    },
+        {
+      "completeOtherBranchesThenFail": false,
+      "continuePipeline": false,
+      "failPipeline": true,
+      "name": "Check Preconditions",
+      "notifications": [],
+      "preconditions": [      {
+        "context":         {
+          "expression": "\"${trigger['properties']['VALID_EO_DEPLOYMENT']}\" != \"false\"",
+          "failureMessage": ""
+        },
+        "failPipeline": false,
+        "type": "expression"
+      }],
+      "refId": "19",
+      "requisiteStageRefIds": [],
+      "sendNotifications": false,
+      "type": "checkPreconditions"
+    },
+        {
+      "application": "ossapp",
+      "completeOtherBranchesThenFail": false,
+      "continuePipeline": false,
+      "failPipeline": false,
+      "name": "Reserve And Gather Env Details",
+      "notifications": [      {
+        "address": "PDLDUNPROD@pdl.internal.ericsson.com",
+        "cc": "",
+        "level": "stage",
+        "message": {"stage.failed": {"text": "The Reserve And Gather Env Details phase in the PRODUCT-STAGING pipe has failed."}},
+        "type": "email",
+        "when": ["stage.failed"]
+      }],
+      "pipeline": "48466336-fe37-4972-a32d-8f3b9d53d187",
+      "pipelineParameters":       {
+        "ENV_DETAILS_DIR": "${trigger['parameters']['ENV_DETAILS_DIR']}",
+        "ENV_LABEL": "${trigger['parameters']['ENV_LABEL']}",
+        "FLOW_URL_TAG": "${trigger['parameters']['FLOW_URL_TAG']}",
+        "SPINNAKER_FLOW_ID": "${execution['id']}",
+        "WAIT_TIME": "${trigger['parameters']['WAIT_TIME']}"
+      },
+      "refId": "22",
+      "requisiteStageRefIds": ["49"],
+      "sendNotifications": true,
+      "stageEnabled":       {
+        "expression": "\"${#stage('Fetch, Update, Build and Upload Snapshot')['status']}\" == \"SUCCEEDED\"",
+        "type": "expression"
+      },
+      "type": "pipeline",
+      "waitForCompletion": true
+    },
+        {
+      "application": "ossapp",
+      "completeOtherBranchesThenFail": false,
+      "continuePipeline": true,
+      "failPipeline": false,
+      "name": "Redeploy Env",
+      "pipeline": "5387beec-02b8-4dec-8dac-e22efd71904e",
+      "pipelineParameters":       {
+        "GAS_HOSTNAME": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"EO_GAS_HOSTNAME\"]}",
+        "HELM_REPOSITORY_NAME": "${trigger['parameters']['DROP_HELM_REPOSITORY_NAME']}",
+        "IAM_HOSTNAME": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"IAM_HOSTNAME\"]}",
+        "KUBE_CONFIG": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"KUBE_CONFIG\"]}",
+        "NAMESPACE": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"NAMESPACE\"]}",
+        "PATH_TO_CERTIFICATES_FILES ": "eo-integration-ci/${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"PATH_TO_CERTIFICATES_FILES\"]}",
+        "PF_HOSTNAME": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"EO_PF_HOSTNAME\"]}",
+        "RESOURCE_NAME": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"RESOURCE_NAME\"]}",
+        "SO_HOSTNAME": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"EO_SO_HOSTNAME\"]}",
+        "UDS_HOSTNAME": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"EO_UDS_HOSTNAME\"]}"
+      },
+      "refId": "23",
+      "requisiteStageRefIds": ["53"],
+      "stageEnabled":       {
+        "expression": "\"${trigger['parameters']['QUARANTINE_ENV']}\" == \"false\" and ( \"${#stage('Combined Upgrade')['status']}\" != \"SUCCEEDED\" or \"${#stage('Check Post Test Execution')['status']}\" != \"SUCCEEDED\" or \"${#stage('Fetch, Update, Build and Upload Release')['status']}\" != \"SUCCEEDED\" )",
+        "type": "expression"
+      },
+      "type": "pipeline",
+      "waitForCompletion": false
+    },
+        {
+      "application": "ossapp",
+      "completeOtherBranchesThenFail": false,
+      "continuePipeline": true,
+      "failPipeline": false,
+      "name": "Combined Upgrade",
+      "notifications": [      {
+        "address": "PDLDUNPROD@pdl.internal.ericsson.com",
+        "cc": "",
+        "level": "stage",
+        "message": {"stage.failed": {"text": "The Combined Upgrade phase in the PRODUCT-STAGING pipe has failed."}},
+        "type": "email",
+        "when": ["stage.failed"]
+      }],
+      "pipeline": "889027c1-0136-4093-9558-1a7e27ef702b",
+      "pipelineParameters":       {
+        "DEPLOYMENT_TYPE": "upgrade",
+        "FUNCTIONAL_USER_SECRET": "${trigger['parameters']['FUNCTIONAL_USER_SECRET']}",
+        "GAS_HOSTNAME": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"EO_GAS_HOSTNAME\"]}",
+        "HELM_REPOSITORY_NAME": "${trigger['parameters']['SNAPSHOT_HELM_REPOSITORY_NAME']}",
+        "HELM_TIMEOUT": "${trigger['parameters']['UG_HELM_TIMEOUT']}",
+        "IAM_HOSTNAME": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"IAM_HOSTNAME\"]}",
+        "INT_CHART_VERSION": "${#stage(\"Fetch, Update, Build and Upload Snapshot\")[\"context\"][\"INT_CHART_VERSION\"]}",
+        "KUBE_CONFIG": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"KUBE_CONFIG\"]}",
+        "NAMESPACE": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"NAMESPACE\"]}",
+        "PATH_TO_CERTIFICATES_FILES": "eo-integration-ci/${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"PATH_TO_CERTIFICATES_FILES\"]}",
+        "PATH_TO_SITE_VALUES": "${trigger['parameters']['UG_PATH_TO_SITE_VALUES']}",
+        "PF_DEPLOY": "${trigger['parameters']['PF_DEPLOY']}",
+        "PF_HOSTNAME": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"EO_PF_HOSTNAME\"]}",
+        "PLATFORM_DEPLOY": "${trigger['parameters']['PLATFORM_DEPLOY']}",
+        "SO_DEPLOY": "${trigger['parameters']['SO_DEPLOY']}",
+        "SO_HOSTNAME": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"EO_SO_HOSTNAME\"]}",
+        "UDS_DEPLOY": "${trigger['parameters']['UDS_DEPLOY']}",
+        "UDS_HOSTNAME": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"EO_UDS_HOSTNAME\"]}"
+      },
+      "refId": "27",
+      "requisiteStageRefIds": ["42"],
+      "sendNotifications": true,
+      "stageEnabled":       {
+        "expression": "\"${#stage('Check Pre Test Execution')['status']}\" == \"SUCCEEDED\" and !${#stage(\"Check Parameters\")[\"context\"][\"CHART_NAME\"].contains(\"eric-ctrl-bro\")}",
+        "type": "expression"
+      },
+      "type": "pipeline",
+      "waitForCompletion": true
+    },
+        {
+      "completeOtherBranchesThenFail": false,
+      "continuePipeline": true,
+      "failPipeline": false,
+      "job": "OSS-Integration-Check-Deployment",
+      "master": "oss-aispinn-fem5s11-eiffel052",
+      "name": "Check Deployment Status",
+      "parameters":       {
+        "INT_CHART_VERSION": "${#stage(\"Get Latest Base Chart Version\")[\"context\"][\"INT_CHART_VERSION\"]}",
+        "KUBECONFIG_FILE": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"KUBE_CONFIG\"]}",
+        "NAMESPACE": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"NAMESPACE\"]}",
+        "SLAVE_LABEL": "evo_docker_engine_gic_IDUN",
+        "SNAP_INT_CHART_VERSION": "${#stage(\"Fetch, Update, Build and Upload Snapshot\")[\"context\"][\"INT_CHART_VERSION\"]}"
+      },
+      "propertyFile": "artifact.properties",
+      "refId": "29",
+      "requisiteStageRefIds": ["22"],
+      "stageEnabled":       {
+        "expression": "\"${#stage('Reserve And Gather Env Details')['status']}\" == \"SUCCEEDED\"",
+        "type": "expression"
+      },
+      "type": "jenkins"
+    },
+        {
+      "application": "ossapp",
+      "completeOtherBranchesThenFail": false,
+      "continuePipeline": true,
+      "failPipeline": false,
+      "name": "Initial Install",
+      "pipeline": "889027c1-0136-4093-9558-1a7e27ef702b",
+      "pipelineParameters":       {
+        "FUNCTIONAL_USER_SECRET": "${trigger['parameters']['FUNCTIONAL_USER_SECRET']}",
+        "GAS_HOSTNAME": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"EO_GAS_HOSTNAME\"]}",
+        "HELM_REPOSITORY_NAME": "${trigger['parameters']['DROP_HELM_REPOSITORY_NAME']}",
+        "HELM_TIMEOUT": "${trigger['parameters']['II_HELM_TIMEOUT']}",
+        "IAM_HOSTNAME": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"IAM_HOSTNAME\"]}",
+        "INT_CHART_VERSION": "${#stage(\"Get Latest Base Chart Version\")[\"context\"][\"INT_CHART_VERSION\"]}",
+        "KUBE_CONFIG": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"KUBE_CONFIG\"]}",
+        "NAMESPACE": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"NAMESPACE\"]}",
+        "PATH_TO_CERTIFICATES_FILES": "eo-integration-ci/${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"PATH_TO_CERTIFICATES_FILES\"]}",
+        "PATH_TO_SITE_VALUES": "${trigger['parameters']['II_PATH_TO_SITE_VALUES']}",
+        "PF_DEPLOY": "${trigger['parameters']['PF_DEPLOY']}",
+        "PF_HOSTNAME": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"EO_PF_HOSTNAME\"]}",
+        "PLATFORM_DEPLOY": "${trigger['parameters']['PLATFORM_DEPLOY']}",
+        "SO_DEPLOY": "${trigger['parameters']['SO_DEPLOY']}",
+        "SO_HOSTNAME": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"EO_SO_HOSTNAME\"]}",
+        "UDS_DEPLOY": "${trigger['parameters']['UDS_DEPLOY']}",
+        "UDS_HOSTNAME": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"EO_UDS_HOSTNAME\"]}"
+      },
+      "refId": "30",
+      "requisiteStageRefIds": ["29"],
+      "stageEnabled":       {
+        "expression": "\"${trigger['parameters']['FORCE_REDEPLOY']}\" == \"true\" or ( ${#stage(\"Check Deployment Status\")[\"context\"][\"SKIP_DELETION\"].contains(\"false\")} && \"${#stage('Check Deployment Status')['status']}\" == \"SUCCEEDED\" )",
+        "type": "expression"
+      },
+      "type": "pipeline",
+      "waitForCompletion": true
+    },
+        {
+      "application": "ossapp",
+      "completeOtherBranchesThenFail": false,
+      "continuePipeline": true,
+      "failPipeline": false,
+      "name": "App Pre Testing",
+      "pipeline": "dd7df7c3-07b6-463c-bf4c-6654ab956dcf",
+      "pipelineParameters":       {
+        "EXECUTION_ID": "${execution['id']}",
+        "IDAM_INGRESS_NAME": "eric-sec-access-mgmt-ingress",
+        "INT_CHART_VERSION": "${#stage(\"Get Latest Base Chart Version\")[\"context\"][\"INT_CHART_VERSION\"]}",
+        "KUBE_CONFIG": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"KUBE_CONFIG\"]}",
+        "NAMESPACE": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"NAMESPACE\"]}",
+        "PF_DEPLOY": "${#stage(\"Get Application Tags\")[\"context\"][\"TAGS\"].contains(\"pf\")}",
+        "PF_HOSTNAME": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"EO_PF_HOSTNAME\"]}",
+        "RBAC_TEST": "${trigger['parameters']['RBAC_TEST']}",
+        "SO_DEPLOY": "${#stage(\"Get Application Tags\")[\"context\"][\"TAGS\"].contains(\"so\")}",
+        "SO_HOSTNAME": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"EO_SO_HOSTNAME\"]}",
+        "UDS_DEPLOY": "${#stage(\"Get Application Tags\")[\"context\"][\"TAGS\"].contains(\"uds\")}",
+        "UDS_HOSTNAME": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"EO_UDS_HOSTNAME\"]}"
+      },
+      "refId": "31",
+      "requisiteStageRefIds":       [
+        "30",
+        "52"
+      ],
+      "stageEnabled":       {
+        "expression": "\"${#stage('Check Deployment Status')['status']}\" == \"SUCCEEDED\" and ( \"${#stage('Initial Install')['status']}\" == \"SUCCEEDED\" or \"${#stage('Initial Install')['status']}\" == \"SKIPPED\" ) and ( ${#stage(\"Check Parameters\")[\"context\"][\"CHART_NAME\"].contains(\"eric-eo-\")} or ${#stage(\"Check Parameters\")[\"context\"][\"CHART_NAME\"].contains(\"eric-data-visualizer-kb\")} or ${#stage(\"Check Parameters\")[\"context\"][\"CHART_NAME\"].contains(\"eric-oss-\")} )",
+        "type": "expression"
+      },
+      "type": "pipeline",
+      "waitForCompletion": true
+    },
+        {
+      "application": "ossapp",
+      "completeOtherBranchesThenFail": false,
+      "continuePipeline": true,
+      "failPipeline": false,
+      "name": "App Post Testing",
+      "pipeline": "bee39934-21b2-45a1-bb29-53d3db06b75c",
+      "pipelineParameters":       {
+        "EXECUTION_ID": "${execution['id']}",
+        "IDAM_INGRESS_NAME": "eric-sec-access-mgmt-ingress",
+        "INT_CHART_VERSION": "${#stage(\"Fetch, Update, Build and Upload Snapshot\")[\"context\"][\"INT_CHART_VERSION\"]}",
+        "KUBE_CONFIG": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"KUBE_CONFIG\"]}",
+        "NAMESPACE": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"NAMESPACE\"]}",
+        "PF_DEPLOY": "${#stage(\"Get Application Tags\")[\"context\"][\"TAGS\"].contains(\"pf\")}",
+        "PF_HOSTNAME": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"EO_PF_HOSTNAME\"]}",
+        "RBAC_DEPLOY": "${trigger['parameters']['RBAC_TEST']}",
+        "SO_DEPLOY": "${#stage(\"Get Application Tags\")[\"context\"][\"TAGS\"].contains(\"so\")}",
+        "SO_HOSTNAME": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"EO_SO_HOSTNAME\"]}",
+        "UDS_DEPLOY": "${#stage(\"Get Application Tags\")[\"context\"][\"TAGS\"].contains(\"uds\")}",
+        "UDS_HOSTNAME": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"EO_UDS_HOSTNAME\"]}"
+      },
+      "refId": "32",
+      "requisiteStageRefIds": ["27"],
+      "stageEnabled":       {
+        "expression": "\"${#stage('Combined Upgrade')['status']}\" == \"SUCCEEDED\" and ( ${#stage(\"Check Parameters\")[\"context\"][\"CHART_NAME\"].contains(\"eric-eo-\")} or ${#stage(\"Check Parameters\")[\"context\"][\"CHART_NAME\"].contains(\"eric-data-visualizer-kb\")} or ${#stage(\"Check Parameters\")[\"context\"][\"CHART_NAME\"].contains(\"eric-oss-\")} )",
+        "type": "expression"
+      },
+      "type": "pipeline",
+      "waitForCompletion": true
+    },
+        {
+      "completeOtherBranchesThenFail": false,
+      "continuePipeline": true,
+      "failPipeline": false,
+      "job": "OSS-Integration-Quarantine-Environment",
+      "master": "oss-aispinn-fem5s11-eiffel052",
+      "name": "Quarantine Env",
+      "parameters": {"ENV_NAME": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"RESOURCE_NAME\"]}"},
+      "refId": "34",
+      "requisiteStageRefIds": ["44"],
+      "stageEnabled":       {
+        "expression": "${trigger['parameters']['QUARANTINE_ENV'].contains('true')} and ( \"${#stage('EO Combined Upgrade')['status']}\" != \"SUCCEEDED\" or \"${#stage('Check Post Test Execution')['status']}\" != \"SUCCEEDED\" )",
+        "type": "expression"
+      },
+      "type": "jenkins"
+    },
+        {
+      "name": "Flow Completed",
+      "preconditions":       [
+                {
+          "context": {"expression": "\"${#stage('Fetch, Update, Build and Upload Release')['status']}\" == \"SUCCEEDED\"  or \"${#stage('Fetch, Update, Build and Upload Release')['status']}\" == \"SKIPPED\""},
+          "failPipeline": true,
+          "type": "expression"
+        },
+                {
+          "context": {"expression": "\"${#stage('Combined Upgrade')['status']}\" == \"SUCCEEDED\" or \"${#stage('Combined Upgrade')['status']}\" == \"SKIPPED\""},
+          "failPipeline": true,
+          "type": "expression"
+        },
+                {
+          "context": {"expression": "\"${#stage('Check Post Test Execution')['status']}\" == \"SUCCEEDED\" or \"${#stage('Check Post Test Execution')['status']}\" == \"SKIPPED\""},
+          "failPipeline": true,
+          "type": "expression"
+        },
+                {
+          "context": {"expression": "\"${#stage('Check Pre Test Execution')['status']}\" == \"SUCCEEDED\" or \"${#stage('Check Pre Test Execution')['status']}\" == \"SKIPPED\""},
+          "failPipeline": true,
+          "type": "expression"
+        },
+                {
+          "context": {"expression": "\"${#stage('Redeploy Env')['status']}\" == \"SUCCEEDED\" or \"${#stage('Redeploy Env')['status']}\" == \"SKIPPED\""},
+          "failPipeline": false,
+          "type": "expression"
+        },
+                {
+          "context": {"expression": "\"${#stage('Quarantine Env')['status']}\" == \"SUCCEEDED\" or \"${#stage('Quarantine Env')['status']}\" == \"SKIPPED\""},
+          "failPipeline": false,
+          "type": "expression"
+        },
+                {
+          "context": {"expression": "\"${#stage('UnReserve Env')['status']}\" == \"SUCCEEDED\" or \"${#stage('UnReserve Env')['status']}\" == \"SKIPPED\""},
+          "failPipeline": false,
+          "type": "expression"
+        }
+      ],
+      "refId": "35",
+      "requisiteStageRefIds":       [
+        "23",
+        "34",
+        "37"
+      ],
+      "type": "checkPreconditions"
+    },
+        {
+      "continuePipeline": false,
+      "failPipeline": true,
+      "job": "OSS-Integration-Unreserve-Environment",
+      "master": "oss-aispinn-fem5s11-eiffel052",
+      "name": "UnReserve Env",
+      "parameters": {"ENV_NAME": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"RESOURCE_NAME\"]}"},
+      "propertyFile": "",
+      "refId": "37",
+      "requisiteStageRefIds":       [
+        "34",
+        "53"
+      ],
+      "stageEnabled":       {
+        "expression": "\"${#stage('Fetch, Update, Build and Upload Release')['status']}\" == \"SUCCEEDED\" and \"${#stage('Quarantine Env')['status']}\" == \"SKIPPED\"",
+        "type": "expression"
+      },
+      "type": "jenkins"
+    },
+        {
+      "application": "eostagingha",
+      "completeOtherBranchesThenFail": false,
+      "continuePipeline": true,
+      "failPipeline": false,
+      "name": "Integration_Pre_RBAC_tests",
+      "pipeline": "816717cf-71a9-4adc-8421-910eadeb6bca",
+      "pipelineParameters":       {
+        "ENV_NAME": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"RESOURCE_NAME\"]}",
+        "GAS_HOSTNAME": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"EO_GAS_HOSTNAME\"]}",
+        "IDUN_FLOW": "TRUE",
+        "KUBE_CONFIG": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"KUBE_CONFIG\"]}",
+        "NAMESPACE": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"NAMESPACE\"]}",
+        "SO_HOSTNAME": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"EO_SO_HOSTNAME\"]}"
+      },
+      "refId": "41",
+      "requisiteStageRefIds":       [
+        "30",
+        "52"
+      ],
+      "stageEnabled":       {
+        "expression": "\"${#stage('Check Deployment Status')['status']}\" == \"SUCCEEDED\" and ( \"${#stage('Initial Install')['status']}\" == \"SUCCEEDED\" or \"${#stage('Initial Install')['status']}\" == \"SKIPPED\" ) and  ( !${#stage(\"Check Parameters\")[\"context\"][\"CHART_NAME\"].contains(\"eric-eo-\")} and !${#stage(\"Check Parameters\")[\"context\"][\"CHART_NAME\"].contains(\"eric-data-visualizer-kb\")} and !${#stage(\"Check Parameters\")[\"context\"][\"CHART_NAME\"].contains(\"eric-oss-\")} and !${#stage(\"Check Parameters\")[\"context\"][\"CHART_NAME\"].contains(\"eric-ctrl-bro\")} )",
+        "type": "expression"
+      },
+      "type": "pipeline",
+      "waitForCompletion": true
+    },
+        {
+      "completeOtherBranchesThenFail": false,
+      "continuePipeline": true,
+      "failPipeline": false,
+      "name": "Check Pre Test Execution",
+      "preconditions":       [
+                {
+          "context": {"expression": "\"${#stage('App Pre Testing')['status']}\" == \"SUCCEEDED\" or \"${#stage('App Pre Testing')['status']}\" == \"SKIPPED\""},
+          "failPipeline": true,
+          "type": "expression"
+        },
+                {
+          "context": {"expression": "\"${#stage('Integration_Pre_RBAC_tests')['status']}\" == \"SUCCEEDED\" or \"${#stage('Integration_Pre_RBAC_tests')['status']}\" == \"SKIPPED\""},
+          "failPipeline": true,
+          "type": "expression"
+        },
+                {
+          "context": {"expression": "\"${#stage('Initial Install')['status']}\" == \"SUCCEEDED\" or \"${#stage('Initial Install')['status']}\" == \"SKIPPED\""},
+          "failPipeline": true,
+          "type": "expression"
+        }
+      ],
+      "refId": "42",
+      "requisiteStageRefIds":       [
+        "31",
+        "41"
+      ],
+      "type": "checkPreconditions"
+    },
+        {
+      "application": "eostagingha",
+      "completeOtherBranchesThenFail": false,
+      "continuePipeline": true,
+      "failPipeline": false,
+      "name": "Integration_Post_RBAC_tests",
+      "pipeline": "816717cf-71a9-4adc-8421-910eadeb6bca",
+      "pipelineParameters":       {
+        "ENV_NAME": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"RESOURCE_NAME\"]}",
+        "GAS_HOSTNAME": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"EO_GAS_HOSTNAME\"]}",
+        "IDUN_FLOW": "TRUE",
+        "KUBE_CONFIG": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"KUBE_CONFIG\"]}",
+        "NAMESPACE": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"NAMESPACE\"]}",
+        "SO_HOSTNAME": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"EO_SO_HOSTNAME\"]}"
+      },
+      "refId": "43",
+      "requisiteStageRefIds": ["27"],
+      "stageEnabled":       {
+        "expression": "\"${#stage('EO Combined Upgrade')['status']}\" == \"SUCCEEDED\" and ( !${#stage(\"Check Parameters\")[\"context\"][\"CHART_NAME\"].contains(\"eric-eo-\")} and !${#stage(\"Check Parameters\")[\"context\"][\"CHART_NAME\"].contains(\"eric-data-visualizer-kb\")} and !${#stage(\"Check Parameters\")[\"context\"][\"CHART_NAME\"].contains(\"eric-oss-\")} and !${#stage(\"Check Parameters\")[\"context\"][\"CHART_NAME\"].contains(\"eric-ctrl-bro\")})",
+        "type": "expression"
+      },
+      "type": "pipeline",
+      "waitForCompletion": true
+    },
+        {
+      "completeOtherBranchesThenFail": false,
+      "continuePipeline": true,
+      "failPipeline": false,
+      "name": "Check Post Test Execution",
+      "preconditions":       [
+                {
+          "context": {"expression": "\"${#stage('App Post Testing')['status']}\" == \"SUCCEEDED\" or \"${#stage('App Post Testing')['status']}\" == \"SKIPPED\""},
+          "failPipeline": true,
+          "type": "expression"
+        },
+                {
+          "context": {"expression": "\"${#stage('Integration_Post_RBAC_tests')['status']}\" == \"SUCCEEDED\" or \"${#stage('Integration_Post_RBAC_tests')['status']}\" == \"SKIPPED\""},
+          "failPipeline": true,
+          "type": "expression"
+        },
+                {
+          "context": {"expression": "\"${#stage('Combined Upgrade')['status']}\" == \"SUCCEEDED\" or \"${#stage('Combined Upgrade')['status']}\" == \"SKIPPED\""},
+          "failPipeline": true,
+          "type": "expression"
+        },
+                {
+          "context": {"expression": "\"${#stage('BUR-Test')['status']}\" == \"SUCCEEDED\" or \"${#stage('BUR-Test')['status']}\" == \"SKIPPED\""},
+          "failPipeline": true,
+          "type": "expression"
+        }
+      ],
+      "refId": "44",
+      "requisiteStageRefIds":       [
+        "32",
+        "43",
+        "47",
+        "27"
+      ],
+      "type": "checkPreconditions"
+    },
+        {
+      "continuePipeline": false,
+      "failPipeline": true,
+      "job": "OSS_Integration_Get_Latest_OSS_Helm_Version",
+      "master": "oss-aispinn-fem5s11-eiffel052",
+      "name": "Get Latest Base Chart Version",
+      "parameters":       {
+        "FUNCTIONAL_USER_SECRET": "${trigger['parameters']['FUNCTIONAL_USER_SECRET']}",
+        "INT_CHART_VERSION": "${trigger['parameters']['II_BASE_CHART_VERSION']}",
+        "SLAVE_LABEL": "evo_docker_engine_gic_IDUN"
+      },
+      "propertyFile": "artifact.properties",
+      "refId": "45",
+      "requisiteStageRefIds": ["15"],
+      "type": "jenkins"
+    },
+        {
+      "application": "ossapp",
+      "completeOtherBranchesThenFail": false,
+      "continuePipeline": true,
+      "failPipeline": false,
+      "name": "BUR-Test",
+      "pipeline": "5325ac48-0936-44d2-aa9d-5e65c53dcb13",
+      "pipelineParameters":       {
+        "ARM_REGISTRY_USER_SECRET": "${trigger['parameters']['ARM_REGISTRY_USER_SECRET']}",
+        "GAS_HOSTNAME": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"EO_GAS_HOSTNAME\"]}",
+        "IAM_HOSTNAME": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"IAM_HOSTNAME\"]}",
+        "INT_CHART_VERSION": "${#stage(\"Fetch, Update, Build and Upload Snapshot\")[\"context\"][\"INT_CHART_VERSION\"]}",
+        "KUBE_CONFIG": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"KUBE_CONFIG\"]}",
+        "MANUAL_START": "false",
+        "NAMESPACE": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"NAMESPACE\"]}",
+        "PATH_TO_CERTIFICATES_FILES ": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"PATH_TO_CERTIFICATES_FILES\"]}",
+        "PATH_TO_SITE_VALUES": "${trigger['parameters']['UG_PATH_TO_SITE_VALUES']}",
+        "PF_HOSTNAME": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"EO_PF_HOSTNAME\"]}",
+        "SO_HOSTNAME": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"EO_SO_HOSTNAME\"]}",
+        "UDS_HOSTNAME": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"EO_UDS_HOSTNAME\"]}"
+      },
+      "refId": "47",
+      "requisiteStageRefIds": ["30"],
+      "stageEnabled":       {
+        "expression": "${#stage(\"Check Parameters\")[\"context\"][\"CHART_NAME\"].contains(\"eric-ctrl-bro\")}",
+        "type": "expression"
+      },
+      "type": "pipeline",
+      "waitForCompletion": true
+    },
+        {
+      "continuePipeline": false,
+      "failPipeline": true,
+      "job": "OSS-Integration-Fetch-Build-Upload",
+      "master": "oss-aispinn-fem5s11-eiffel052",
+      "name": "Fetch, Update, Build and Upload Snapshot",
+      "parameters":       {
+        "ARMDOCKER_USER_SECRET": "cloudman-docker-auth-config",
+        "CHART_NAME": "${#stage(\"Check Parameters\")[\"context\"][\"CHART_NAME\"]}",
+        "CHART_REPO": "${#stage(\"Check Parameters\")[\"context\"][\"CHART_REPO\"]}",
+        "CHART_VERSION": "${#stage(\"Check Parameters\")[\"context\"][\"CHART_VERSION\"]}",
+        "GERRIT_REFSPEC": "",
+        "GERRIT_USER_SECRET": "${trigger['parameters']['FUNCTIONAL_USER_SECRET']}",
+        "HELM_RELEASED_REPO": "https://arm.epk.ericsson.se/artifactory/proj-eo-released-helm",
+        "SLAVE_LABEL": "evo_docker_engine_gic_IDUN",
+        "WAIT_SUBMITTABLE_BEFORE_PUBLISH": "false"
+      },
+      "propertyFile": "artifact.properties",
+      "refId": "49",
+      "requisiteStageRefIds": ["50"],
+      "type": "jenkins"
+    },
+        {
+      "completeOtherBranchesThenFail": false,
+      "continuePipeline": false,
+      "failPipeline": true,
+      "job": "OSS-Integration-Fetch-Build-Upload",
+      "master": "oss-aispinn-fem5s11-eiffel052",
+      "name": "Pre Code Test",
+      "parameters":       {
+        "ARMDOCKER_USER_SECRET": "cloudman-docker-auth-config",
+        "CHART_NAME": "${#stage(\"Check Parameters\")[\"context\"][\"CHART_NAME\"]}",
+        "CHART_REPO": "${#stage(\"Check Parameters\")[\"context\"][\"CHART_REPO\"]}",
+        "CHART_VERSION": "${#stage(\"Check Parameters\")[\"context\"][\"CHART_VERSION\"]}",
+        "GERRIT_PREPARE_OR_PUBLISH": "prep",
+        "GERRIT_REFSPEC": "",
+        "GERRIT_USER_SECRET": "${trigger['parameters']['FUNCTIONAL_USER_SECRET']}",
+        "HELM_RELEASED_REPO": "https://arm.epk.ericsson.se/artifactory/proj-eo-released-helm",
+        "SLAVE_LABEL": "evo_docker_engine_gic_IDUN",
+        "WAIT_SUBMITTABLE_BEFORE_PUBLISH": "false"
+      },
+      "propertyFile": "",
+      "refId": "50",
+      "requisiteStageRefIds": ["13"],
+      "type": "jenkins"
+    },
+        {
+      "continuePipeline": false,
+      "failPipeline": true,
+      "job": "OSS-Integration-UDS-backend-wait",
+      "master": "oss-aispinn-fem5s11-eiffel052",
+      "name": "UDS Upgrade Wait",
+      "parameters":       {
+        "KUBECONFIG_FILE": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"KUBE_CONFIG\"]}",
+        "NAMESPACE": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"NAMESPACE\"]}",
+        "SLAVE_LABEL": "evo_docker_engine_gic_IDUN"
+      },
+      "refId": "52",
+      "requisiteStageRefIds": ["30"],
+      "stageEnabled":       {
+        "expression": "\"${#stage('Initial Install')['status']}\" == \"SUCCEEDED\"",
+        "type": "expression"
+      },
+      "type": "jenkins"
+    },
+        {
+      "application": "ossapp",
+      "failPipeline": true,
+      "name": "Fetch, Update, Build and Upload Release",
+      "pipeline": "a3208395-2a6d-4473-8022-5f4da55e3a42",
+      "pipelineParameters":       {
+        "CHART_NAME": "${#stage(\"Check Parameters\")[\"context\"][\"CHART_NAME\"]}",
+        "CHART_REPO": "${#stage(\"Check Parameters\")[\"context\"][\"CHART_REPO\"]}",
+        "CHART_VERSION": "${#stage(\"Check Parameters\")[\"context\"][\"CHART_VERSION\"]}"
+      },
+      "refId": "53",
+      "requisiteStageRefIds": ["44"],
+      "type": "pipeline",
+      "waitForCompletion": true
+    }
+  ],
+  "disabled": false,
+  "id": "a57ba58b-94dd-425a-98e7-1d0067daabd5",
+  "updateTs": "1617286162231",
+  "notifications": []
+}

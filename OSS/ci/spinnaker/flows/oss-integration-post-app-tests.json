@@ -1,0 +1,289 @@
+{
+  "appConfig": {},
+  "application": "ossapp",
+  "id": "bee39934-21b2-45a1-bb29-53d3db06b75c",
+  "index": 8,
+  "keepWaitingPipelines": false,
+  "lastModifiedBy": "eruagar",
+  "limitConcurrent": false,
+  "name": "oss-integration-post-app-tests",
+  "notifications": [],
+  "parameterConfig":   [
+        {
+      "default": "",
+      "description": "Installed version of the Base Chart",
+      "hasOptions": false,
+      "label": "INT_CHART_VERSION",
+      "name": "INT_CHART_VERSION",
+      "options": [{"value": ""}],
+      "pinned": true,
+      "required": true
+    },
+        {
+      "default": "",
+      "description": "Namespace the Base Chart was installed onto",
+      "hasOptions": false,
+      "label": "NAMESPACE",
+      "name": "NAMESPACE",
+      "options": [{"value": ""}],
+      "pinned": true,
+      "required": true
+    },
+        {
+      "default": "",
+      "description": "SO HOSTNAME used during SO Testing",
+      "hasOptions": false,
+      "label": "SO_HOSTNAME",
+      "name": "SO_HOSTNAME",
+      "options": [{"value": ""}],
+      "pinned": true,
+      "required": true
+    },
+        {
+      "default": "",
+      "description": "PF HOSTNAME used during PF Testing",
+      "hasOptions": false,
+      "label": "PF_HOSTNAME",
+      "name": "PF_HOSTNAME",
+      "options": [{"value": ""}],
+      "pinned": true,
+      "required": true
+    },
+        {
+      "default": "",
+      "description": "UDS HOSTNAME used during UDS Testing",
+      "hasOptions": false,
+      "label": "UDS_HOSTNAME",
+      "name": "UDS_HOSTNAME",
+      "options": [{"value": ""}],
+      "pinned": true,
+      "required": true
+    },
+        {
+      "default": "true",
+      "description": "Option to Test SO set either \"true\" or \"false\"",
+      "hasOptions": false,
+      "label": "SO_DEPLOY",
+      "name": "SO_DEPLOY",
+      "options":       [
+        {"value": "false"},
+        {"value": ""}
+      ],
+      "pinned": true,
+      "required": true
+    },
+        {
+      "default": "true",
+      "description": "Option to Test Policy Framework set either \"true\" or \"false\"",
+      "hasOptions": false,
+      "label": "PF_DEPLOY",
+      "name": "PF_DEPLOY",
+      "options":       [
+        {"value": "false"},
+        {"value": ""}
+      ],
+      "pinned": true,
+      "required": true
+    },
+        {
+      "default": "true",
+      "description": "Option to Test UDS set either \"true\" or \"false\"",
+      "hasOptions": false,
+      "label": "UDS_DEPLOY",
+      "name": "UDS_DEPLOY",
+      "options":       [
+        {"value": "false"},
+        {"value": ""}
+      ],
+      "pinned": true,
+      "required": true
+    },
+        {
+      "default": "true",
+      "description": "Option to Test RBAC set either \"true\" or \"false\"",
+      "hasOptions": false,
+      "label": "RBAC_DEPLOY",
+      "name": "RBAC_DEPLOY",
+      "options": [{"value": ""}],
+      "pinned": true,
+      "required": true
+    },
+        {
+      "default": "12345678",
+      "description": "Unique ID used by the App testing to be able to execute the same test on the system without a re-install",
+      "hasOptions": false,
+      "label": "EXECUTION_ID",
+      "name": "EXECUTION_ID",
+      "options": [{"value": ""}],
+      "pinned": false,
+      "required": true
+    },
+        {
+      "default": "",
+      "description": "Kubernetes Confiuratio File for the cluster",
+      "hasOptions": false,
+      "label": "KUBE_CONFIG",
+      "name": "KUBE_CONFIG",
+      "options": [{"value": ""}],
+      "pinned": false,
+      "required": true
+    },
+        {
+      "default": "eric-sec-access-mgmt",
+      "description": "",
+      "hasOptions": false,
+      "label": "IDAM_INGRESS_NAME",
+      "name": "IDAM_INGRESS_NAME",
+      "options": [{"value": ""}],
+      "pinned": false,
+      "required": true
+    }
+  ],
+  "schema": "1",
+  "stages":   [
+        {
+      "name": "Waiting For App Tests to Complete",
+      "preconditions":       [
+                {
+          "context": {"expression": "\"${#stage('SO Test')['status']}\" == \"SUCCEEDED\"  or \"${#stage('SO Test')['status']}\" == \"SKIPPED\""},
+          "failPipeline": false,
+          "type": "expression"
+        },
+                {
+          "context": {"expression": "\"${#stage('PF Test')['status']}\" == \"SUCCEEDED\"  or \"${#stage('PF Test')['status']}\" == \"SKIPPED\""},
+          "failPipeline": false,
+          "type": "expression"
+        },
+                {
+          "context": {"expression": "\"${#stage('UDS Test')['status']}\" == \"SUCCEEDED\"  or \"${#stage('UDS Test')['status']}\" == \"SKIPPED\""},
+          "failPipeline": false,
+          "type": "expression"
+        },
+                {
+          "context": {"expression": "\"${#stage('K6 Test')['status']}\" == \"SUCCEEDED\" or \"${#stage('K6 Test')['status']}\" == \"SKIPPED\""},
+          "failPipeline": false,
+          "type": "expression"
+        }
+      ],
+      "refId": "6",
+      "requisiteStageRefIds":       [
+        "8",
+        "9",
+        "21",
+        "22",
+        "23"
+      ],
+      "type": "checkPreconditions"
+    },
+        {
+      "completeOtherBranchesThenFail": false,
+      "continuePipeline": false,
+      "failPipeline": false,
+      "job": "SO_BUR_Verify",
+      "master": "oss-aispinn-fem2s11-eiffel052",
+      "name": "SO Test",
+      "parameters":       {
+        "ACTION": "verify",
+        "CLUSTER_FILE_SECRET_NAME": "${trigger['parameters']['KUBE_CONFIG']}",
+        "CLUSTER_ID": "${trigger['parameters']['KUBE_CONFIG']}",
+        "DEFAULT_POLL_TIMEOUT": "120",
+        "NAMESPACE": "${trigger['parameters']['NAMESPACE']}",
+        "TESTING_SO_URL": "https://${trigger['parameters']['SO_HOSTNAME']}"
+      },
+      "propertyFile": "",
+      "refId": "8",
+      "requisiteStageRefIds": [],
+      "stageEnabled":       {
+        "expression": "\"${trigger['parameters']['SO_DEPLOY']}\" == \"no_run\"",
+        "type": "expression"
+      },
+      "type": "jenkins"
+    },
+        {
+      "completeOtherBranchesThenFail": false,
+      "continuePipeline": true,
+      "failPipeline": false,
+      "job": "EO-Integration-RBAC-Tests",
+      "markUnstableAsSuccessful": true,
+      "master": "oss-aispinn-fem5s11-eiffel052",
+      "name": "RBAC Test",
+      "parameters":       {
+        "CLUSTER_KUBECONFIG": "${trigger['parameters']['KUBE_CONFIG']}",
+        "GATEWAY_URL": "https://${trigger['parameters']['SO_HOSTNAME']}",
+        "IDAM_INGRESS_NAME": "${trigger['parameters']['IDAM_INGRESS_NAME']}",
+        "NAMESPACE": "${trigger['parameters']['NAMESPACE']}"
+      },
+      "propertyFile": "",
+      "refId": "9",
+      "requisiteStageRefIds": [],
+      "stageEnabled":       {
+        "expression": "\"${trigger['parameters']['RBAC_DEPLOYED']}\" == \"true\"",
+        "type": "expression"
+      },
+      "type": "jenkins"
+    },
+        {
+      "completeOtherBranchesThenFail": false,
+      "continuePipeline": false,
+      "failPipeline": false,
+      "job": "PF_BUR_Verify",
+      "master": "oss-aispinn-fem2s11-eiffel052",
+      "name": "PF Test",
+      "parameters":       {
+        "ACTION": "verify",
+        "PF_PASSWORD": "Ericsson123!",
+        "PF_USER": "pf-user",
+        "TESTING_PF_URL": "https://${trigger['parameters']['PF_HOSTNAME']}"
+      },
+      "propertyFile": "",
+      "refId": "21",
+      "requisiteStageRefIds": [],
+      "stageEnabled":       {
+        "expression": "\"${trigger['parameters']['PF_DEPLOY']}\" == \"no_run\"",
+        "type": "expression"
+      },
+      "type": "jenkins"
+    },
+        {
+      "completeOtherBranchesThenFail": false,
+      "continuePipeline": true,
+      "failPipeline": false,
+      "job": "UDS_BUR_Verify",
+      "master": "oss-aispinn-fem2s11-eiffel052",
+      "name": "UDS Test",
+      "parameters":       {
+        "ACTION": "verify",
+        "TEMPLATE_NUMBER": "${trigger['parameters']['EXECUTION_ID']}",
+        "TESTING_UDS_URL": "https://${trigger['parameters']['UDS_HOSTNAME']}",
+        "UDS_PASSWORD": "Ericsson123!",
+        "UDS_USER": "so-user"
+      },
+      "propertyFile": "",
+      "refId": "22",
+      "requisiteStageRefIds": [],
+      "stageEnabled":       {
+        "expression": "\"${trigger['parameters']['UDS_DEPLOY']}\" == \"no_run\"",
+        "type": "expression"
+      },
+      "type": "jenkins"
+    },
+        {
+      "completeOtherBranchesThenFail": false,
+      "continuePipeline": true,
+      "failPipeline": false,
+      "job": "IDUN_K6_Test_Job",
+      "master": "oss-aispinn-fem5s11-eiffel052",
+      "name": "K6 Test",
+      "parameters": {},
+      "refId": "23",
+      "requisiteStageRefIds": [],
+      "stageEnabled":       {
+        "expression": "\"${trigger['parameters']['UDS_DEPLOY']}\" == \"no_run\"",
+        "type": "expression"
+      },
+      "type": "jenkins"
+    }
+  ],
+  "triggers": [],
+  "updateTs": "1642068090159"
+}

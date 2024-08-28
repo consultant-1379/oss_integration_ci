@@ -1,0 +1,544 @@
+{
+  "appConfig": {},
+  "application": "ossapp",
+  "id": "ea65cb16-7cde-4d68-b344-4c4e257c40a0",
+  "index": 11,
+  "keepWaitingPipelines": false,
+  "lastModifiedBy": "eruagar",
+  "limitConcurrent": false,
+  "name": "oss-chart-e2e-flow",
+  "notifications": [],
+  "parameterConfig":   [
+        {
+      "default": "0.0.0",
+      "description": "Used to set the version to Upgrade To if set to 0.0.0 will get latest from the repo specified with the HELM_REPOSITORY_NAME parameter",
+      "hasOptions": false,
+      "label": "UG_INT_CHART_VERSION",
+      "name": "UG_INT_CHART_VERSION",
+      "options": [{"value": ""}],
+      "pinned": false,
+      "required": true
+    },
+        {
+      "default": "${trigger['parameters']['II_INT_CHART_VERSION']}",
+      "description": "Used to set the II version to deploy the system initially to",
+      "hasOptions": false,
+      "label": "II_INT_CHART_VERSION",
+      "name": "II_INT_CHART_VERSION",
+      "options": [{"value": ""}],
+      "pinned": false,
+      "required": true
+    },
+        {
+      "default": "eo-integration-ci/honeypots/ci/site-values/site_values-1.14.0.yaml",
+      "description": "This is the Initial Install Site Files file to be used from the integration CI Repo",
+      "hasOptions": false,
+      "label": "II_PATH_TO_SITE_VALUES",
+      "name": "II_PATH_TO_SITE_VALUES",
+      "options": [{"value": ""}],
+      "pinned": false,
+      "required": true
+    },
+        {
+      "default": "eo-integration-ci/honeypots/ci/site-values/site_values-1.14.0.yaml",
+      "description": "This is the Upgrade Site Files file to be used from the integration CI Repo",
+      "hasOptions": false,
+      "label": "UG_PATH_TO_SITE_VALUES",
+      "name": "UG_PATH_TO_SITE_VALUES",
+      "options": [{"value": ""}],
+      "pinned": false,
+      "required": true
+    },
+        {
+      "default": "1800",
+      "description": "Time in seconds for the deployment manager to wait for the deployment to complete",
+      "hasOptions": false,
+      "label": "II_HELM_TIMEOUT",
+      "name": "II_HELM_TIMEOUT",
+      "options": [{"value": ""}],
+      "pinned": true,
+      "required": true
+    },
+        {
+      "default": "1800",
+      "description": "Time in seconds for the deployment manager to wait for the deployment to complete",
+      "hasOptions": false,
+      "label": "UG_HELM_TIMEOUT",
+      "name": "UG_HELM_TIMEOUT",
+      "options": [{"value": ""}],
+      "pinned": true,
+      "required": true
+    },
+        {
+      "default": "eo-integration-ci/honeypots/pooling/environments",
+      "description": "This is the directory within the Repo specified within the Gather-Env-Details Jenkins job where to find the pooling environment details",
+      "hasOptions": false,
+      "label": "ENV_DETAILS_DIR",
+      "name": "ENV_DETAILS_DIR",
+      "options": [{"value": ""}],
+      "pinned": false,
+      "required": true
+    },
+        {
+      "default": "honeypots_deploy",
+      "description": "This is the label to search for that is attached to the environments in the Lockable Resource Plugin on Jenkins",
+      "hasOptions": false,
+      "label": "",
+      "name": "ENV_LABEL",
+      "options": [{"value": ""}],
+      "pinned": false,
+      "required": true
+    },
+        {
+      "default": "",
+      "description": "Flow URL Tag is used when locking the invironment to add a tag to descript what has locked the environment for easier tracking",
+      "hasOptions": false,
+      "label": "FLOW_URL_TAG",
+      "name": "FLOW_URL_TAG",
+      "options": [{"value": ""}],
+      "pinned": false,
+      "required": true
+    },
+        {
+      "default": "proj-eric-oss-drop-helm",
+      "description": "Helm Repo to Download the EO Chart snapshot ",
+      "hasOptions": false,
+      "label": "HELM_REPOSITORY_NAME",
+      "name": "HELM_REPOSITORY_NAME",
+      "options": [{"value": ""}],
+      "pinned": true,
+      "required": true
+    },
+        {
+      "default": "false",
+      "description": "Used to set the Helm Registry for EVNFM to onboard packages to",
+      "hasOptions": false,
+      "label": "HELM_REGISTRY_DEPLOY",
+      "name": "HELM_REGISTRY_DEPLOY",
+      "options": [{"value": ""}],
+      "pinned": true,
+      "required": true
+    },
+        {
+      "default": "true",
+      "description": "Option to Deploy SO for initial install, set either \"true\" or \"false\"",
+      "hasOptions": false,
+      "label": "II_SO_DEPLOY",
+      "name": "II_SO_DEPLOY",
+      "options": [{"value": ""}],
+      "pinned": true,
+      "required": true
+    },
+        {
+      "default": "true",
+      "description": "Option to Deploy SO for upgrade,  set either \"true\" or \"false\"",
+      "hasOptions": false,
+      "label": "UG_SO_DEPLOY",
+      "name": "UG_SO_DEPLOY",
+      "options": [{"value": ""}],
+      "pinned": true,
+      "required": true
+    },
+        {
+      "default": "true",
+      "description": "Option to Deploy Policy Framework for Initial install, set either \"true\" or \"false\"",
+      "hasOptions": false,
+      "label": "II_PF_DEPLOY",
+      "name": "II_PF_DEPLOY",
+      "options": [{"value": ""}],
+      "pinned": true,
+      "required": true
+    },
+        {
+      "default": "true",
+      "description": "Option to Deploy Policy Framework for Upgrade, set either \"true\" or \"false\"",
+      "hasOptions": false,
+      "label": "UG_PF_DEPLOY",
+      "name": "UG_PF_DEPLOY",
+      "options": [{"value": ""}],
+      "pinned": true,
+      "required": true
+    },
+        {
+      "default": "true",
+      "description": "Option to Deploy UDS for Initial install set either \"true\" or \"false\"",
+      "hasOptions": false,
+      "label": "II_UDS_DEPLOY",
+      "name": "II_UDS_DEPLOY",
+      "options": [{"value": ""}],
+      "pinned": true,
+      "required": true
+    },
+        {
+      "default": "true",
+      "description": "Option to Deploy UDS for Upgrade, set either \"true\" or \"false\"",
+      "hasOptions": false,
+      "label": "UG_UDS_DEPLOY",
+      "name": "UG_UDS_DEPLOY",
+      "options": [{"value": ""}],
+      "pinned": true,
+      "required": true
+    },
+        {
+      "default": "eoadm100-user-creds",
+      "description": "Arm docker credential secret ro get access to the ar docker during the deployment using the deployment manager",
+      "hasOptions": false,
+      "label": "ARM_REGISTRY_USER_SECRET",
+      "name": "ARM_REGISTRY_USER_SECRET",
+      "options": [{"value": ""}],
+      "pinned": false,
+      "required": true
+    },
+        {
+      "default": "120",
+      "description": "This is the time to wait for an Environment to become available. After the time expirers the job will fail out",
+      "hasOptions": false,
+      "label": "WAIT_TIME",
+      "name": "WAIT_TIME",
+      "options": [{"value": ""}],
+      "pinned": false,
+      "required": true
+    },
+        {
+      "default": "true",
+      "description": "Used to specifiy if RBAC should be tested",
+      "hasOptions": false,
+      "label": "RBAC_TEST",
+      "name": "RBAC_TEST",
+      "options": [{"value": ""}],
+      "pinned": false,
+      "required": true
+    },
+        {
+      "default": "",
+      "description": "This is used when mapped a flow to an environment",
+      "hasOptions": false,
+      "label": "SPINNAKER_FLOW_ID",
+      "name": "SPINNAKER_FLOW_ID",
+      "options": [{"value": ""}],
+      "pinned": false,
+      "required": true
+    },
+        {
+      "default": "deploy",
+      "description": "Option to set the deployment type set either \"install\" or \"upgrade\"",
+      "hasOptions": false,
+      "label": "DEPLOYMENT_TYPE",
+      "name": "DEPLOYMENT_TYPE",
+      "options": [{"value": ""}],
+      "pinned": true,
+      "required": true
+    },
+        {
+      "default": "false",
+      "description": "Used to wait for UDS config backend to complete before proceding",
+      "hasOptions": false,
+      "label": "Wait for UDS",
+      "name": "UDS_WAIT",
+      "options": [{"value": ""}],
+      "pinned": false,
+      "required": true
+    },
+        {
+      "default": "eric-sec-access-mgmt",
+      "description": "",
+      "hasOptions": false,
+      "label": "IDAM_INGRESS_NAME_PRE",
+      "name": "IDAM_INGRESS_NAME_PRE",
+      "options": [{"value": ""}],
+      "pinned": false,
+      "required": true
+    },
+        {
+      "default": "eric-sec-access-mgmt",
+      "description": "",
+      "hasOptions": false,
+      "label": "IDAM_INGRESS_NAME_POST",
+      "name": "IDAM_INGRESS_NAME_POST",
+      "options": [{"value": ""}],
+      "pinned": false,
+      "required": true
+    }
+  ],
+  "schema": "1",
+  "stages":   [
+        {
+      "application": "ossapp",
+      "completeOtherBranchesThenFail": false,
+      "continuePipeline": false,
+      "failPipeline": true,
+      "name": "Initial Install",
+      "pipeline": "889027c1-0136-4093-9558-1a7e27ef702b",
+      "pipelineParameters":       {
+        "GAS_HOSTNAME": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"EO_GAS_HOSTNAME\"]}",
+        "HELM_REPOSITORY_NAME": "${trigger['parameters']['HELM_REPOSITORY_NAME']}",
+        "HELM_TIMEOUT": "${trigger['parameters']['II_HELM_TIMEOUT']}",
+        "IAM_HOSTNAME": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"IAM_HOSTNAME\"]}",
+        "INT_CHART_VERSION": "${trigger['parameters']['II_INT_CHART_VERSION']}",
+        "KUBE_CONFIG": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"KUBE_CONFIG\"]}",
+        "NAMESPACE": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"NAMESPACE\"]}",
+        "PATH_TO_CERTIFICATES_FILES": "eo-integration-ci/${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"PATH_TO_CERTIFICATES_FILES\"]}",
+        "PATH_TO_SITE_VALUES": "${trigger['parameters']['II_PATH_TO_SITE_VALUES']}",
+        "PF_DEPLOY": "${trigger['parameters']['II_PF_DEPLOY']}",
+        "PF_HOSTNAME": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"EO_PF_HOSTNAME\"]}",
+        "SO_DEPLOY": "${trigger['parameters']['II_SO_DEPLOY']}",
+        "SO_HOSTNAME": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"EO_SO_HOSTNAME\"]}",
+        "UDS_DEPLOY": "${trigger['parameters']['II_UDS_DEPLOY']}",
+        "UDS_HOSTNAME": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"EO_UDS_HOSTNAME\"]}"
+      },
+      "refId": "1",
+      "requisiteStageRefIds": ["43"],
+      "type": "pipeline",
+      "waitForCompletion": true
+    },
+        {
+      "continuePipeline": false,
+      "failPipeline": true,
+      "job": "OSS_Integration_Get_Latest_OSS_Helm_Version",
+      "master": "oss-aispinn-fem5s11-eiffel052",
+      "name": "Get Latest OSS Version for Upgrade",
+      "parameters":       {
+        "INT_CHART_VERSION": "${trigger['parameters']['UG_INT_CHART_VERSION']}",
+        "SLAVE_LABEL": "evo_docker_engine_gic_IDUN"
+      },
+      "propertyFile": "artifact.properties",
+      "refId": "15",
+      "requisiteStageRefIds": [],
+      "type": "jenkins"
+    },
+        {
+      "completeOtherBranchesThenFail": false,
+      "continuePipeline": true,
+      "failPipeline": false,
+      "job": "OSS-Integration-BUR-Run-Backup",
+      "master": "oss-aispinn-fem5s11-eiffel052",
+      "name": "Backup System",
+      "parameters":       {
+        "ACTION": "create",
+        "CLUSTER_KUBECONFIG": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"KUBE_CONFIG\"]}",
+        "DEBUG_MODE": "yes",
+        "HOST_URL": "https://${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"EO_SO_HOSTNAME\"]}",
+        "INT_CHART_VERSION": "${trigger['parameters']['II_INT_CHART_VERSION']}",
+        "NAMESPACE": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"NAMESPACE\"]}",
+        "PASSWORD": "Ericsson123!",
+        "SFTP_PASSWORD": "ericsson",
+        "USERNAME": "so-user"
+      },
+      "refId": "17",
+      "requisiteStageRefIds": ["38"],
+      "type": "jenkins"
+    },
+        {
+      "completeOtherBranchesThenFail": false,
+      "continuePipeline": true,
+      "failPipeline": false,
+      "job": "OSS-Integration-BUR-Run-Backup",
+      "master": "oss-aispinn-fem5s11-eiffel052",
+      "name": "Restore System",
+      "parameters":       {
+        "ACTION": "restore",
+        "CLUSTER_KUBECONFIG": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"KUBE_CONFIG\"]}",
+        "DEBUG_MODE": "yes",
+        "HOST_URL": "https://${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"EO_SO_HOSTNAME\"]}",
+        "INT_CHART_VERSION": "${trigger['parameters']['II_INT_CHART_VERSION']}",
+        "NAMESPACE": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"NAMESPACE\"]}",
+        "PASSWORD": "Ericsson123!",
+        "SFTP_PASSWORD": "ericsson",
+        "USERNAME": "so-user"
+      },
+      "refId": "37",
+      "requisiteStageRefIds": ["41"],
+      "type": "jenkins"
+    },
+        {
+      "application": "ossapp",
+      "failPipeline": true,
+      "name": "OSS App Pre Testing",
+      "pipeline": "dd7df7c3-07b6-463c-bf4c-6654ab956dcf",
+      "pipelineParameters":       {
+        "EXECUTION_ID": "${execution['id']}",
+        "IDAM_INGRESS_NAME": "${trigger['parameters']['IDAM_INGRESS_NAME_PRE']}",
+        "INT_CHART_VERSION": "${trigger['parameters']['II_INT_CHART_VERSION']}",
+        "KUBE_CONFIG": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"KUBE_CONFIG\"]}",
+        "NAMESPACE": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"NAMESPACE\"]}",
+        "PF_DEPLOY": "${trigger['parameters']['II_PF_DEPLOY']}",
+        "PF_HOSTNAME": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"EO_PF_HOSTNAME\"]}",
+        "RBAC_TEST": "${trigger['parameters']['RBAC_TEST']}",
+        "SO_DEPLOY": "${trigger['parameters']['II_SO_DEPLOY']}",
+        "SO_HOSTNAME": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"EO_SO_HOSTNAME\"]}",
+        "UDS_DEPLOY": "${trigger['parameters']['II_UDS_DEPLOY']}",
+        "UDS_HOSTNAME": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"EO_UDS_HOSTNAME\"]}"
+      },
+      "refId": "38",
+      "requisiteStageRefIds": ["48"],
+      "type": "pipeline",
+      "waitForCompletion": true
+    },
+        {
+      "application": "ossapp",
+      "completeOtherBranchesThenFail": false,
+      "continuePipeline": false,
+      "failPipeline": true,
+      "name": "Upgrade Install",
+      "pipeline": "889027c1-0136-4093-9558-1a7e27ef702b",
+      "pipelineParameters":       {
+        "DEPLOYMENT_TYPE": "upgrade",
+        "GAS_HOSTNAME": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"EO_GAS_HOSTNAME\"]}",
+        "HELM_REPOSITORY_NAME": "${trigger['parameters']['HELM_REPOSITORY_NAME']}",
+        "HELM_TIMEOUT": "${trigger['parameters']['II_HELM_TIMEOUT']}",
+        "IAM_HOSTNAME": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"IAM_HOSTNAME\"]}",
+        "INT_CHART_VERSION": "${#stage(\"Get Latest OSS Version for Upgrade\")[\"context\"][\"INT_CHART_VERSION\"]}",
+        "KUBE_CONFIG": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"KUBE_CONFIG\"]}",
+        "NAMESPACE": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"NAMESPACE\"]}",
+        "PATH_TO_CERTIFICATES_FILES": "eo-integration-ci/${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"PATH_TO_CERTIFICATES_FILES\"]}",
+        "PATH_TO_SITE_VALUES": "${trigger['parameters'][\"UG_PATH_TO_SITE_VALUES\"]}",
+        "PF_DEPLOY": "${trigger['parameters']['UG_PF_DEPLOY']}",
+        "PF_HOSTNAME": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"EO_PF_HOSTNAME\"]}",
+        "SO_DEPLOY": "${trigger['parameters']['UG_SO_DEPLOY']}",
+        "SO_HOSTNAME": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"EO_SO_HOSTNAME\"]}",
+        "UDS_DEPLOY": "${trigger['parameters']['UG_UDS_DEPLOY']}",
+        "UDS_HOSTNAME": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"EO_UDS_HOSTNAME\"]}"
+      },
+      "refId": "39",
+      "requisiteStageRefIds": ["17"],
+      "type": "pipeline",
+      "waitForCompletion": true
+    },
+        {
+      "application": "ossapp",
+      "failPipeline": true,
+      "name": "OSS App Post Testing",
+      "pipeline": "bee39934-21b2-45a1-bb29-53d3db06b75c",
+      "pipelineParameters":       {
+        "EXECUTION_ID": "${execution['id']}",
+        "IDAM_INGRESS_NAME": "${trigger['parameters']['IDAM_INGRESS_NAME_POST']}",
+        "INT_CHART_VERSION": "${#stage(\"Get Latest OSS Version for Upgrade\")[\"context\"][\"INT_CHART_VERSION\"]}",
+        "KUBE_CONFIG": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"KUBE_CONFIG\"]}",
+        "NAMESPACE": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"NAMESPACE\"]}",
+        "PF_DEPLOY": "${trigger['parameters']['UG_PF_DEPLOY']}",
+        "PF_HOSTNAME": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"EO_PF_HOSTNAME\"]}",
+        "RBAC_DEPLOY": "${trigger['parameters']['RBAC_TEST']}",
+        "SO_DEPLOY": "${trigger['parameters']['UG_SO_DEPLOY']}",
+        "SO_HOSTNAME": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"EO_SO_HOSTNAME\"]}",
+        "UDS_DEPLOY": "${trigger['parameters']['UG_UDS_DEPLOY']}",
+        "UDS_HOSTNAME": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"EO_UDS_HOSTNAME\"]}"
+      },
+      "refId": "40",
+      "requisiteStageRefIds": ["49"],
+      "type": "pipeline",
+      "waitForCompletion": true
+    },
+        {
+      "application": "ossapp",
+      "completeOtherBranchesThenFail": false,
+      "continuePipeline": false,
+      "failPipeline": true,
+      "name": "Initial Install",
+      "pipeline": "889027c1-0136-4093-9558-1a7e27ef702b",
+      "pipelineParameters":       {
+        "GAS_HOSTNAME": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"EO_GAS_HOSTNAME\"]}",
+        "HELM_REPOSITORY_NAME": "${trigger['parameters']['HELM_REPOSITORY_NAME']}",
+        "HELM_TIMEOUT": "${trigger['parameters']['II_HELM_TIMEOUT']}",
+        "IAM_HOSTNAME": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"IAM_HOSTNAME\"]}",
+        "INT_CHART_VERSION": "${trigger['parameters']['II_INT_CHART_VERSION']}",
+        "KUBE_CONFIG": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"KUBE_CONFIG\"]}",
+        "NAMESPACE": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"NAMESPACE\"]}",
+        "PATH_TO_CERTIFICATES_FILES": "eo-integration-ci/${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"PATH_TO_CERTIFICATES_FILES\"]}",
+        "PATH_TO_SITE_VALUES": "${trigger['parameters']['II_PATH_TO_SITE_VALUES']}",
+        "PF_DEPLOY": "${trigger['parameters']['II_PF_DEPLOY']}",
+        "PF_HOSTNAME": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"EO_PF_HOSTNAME\"]}",
+        "SO_DEPLOY": "${trigger['parameters']['II_SO_DEPLOY']}",
+        "SO_HOSTNAME": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"EO_SO_HOSTNAME\"]}",
+        "UDS_DEPLOY": "${trigger['parameters']['II_UDS_DEPLOY']}",
+        "UDS_HOSTNAME": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"EO_UDS_HOSTNAME\"]}"
+      },
+      "refId": "41",
+      "requisiteStageRefIds": ["40"],
+      "type": "pipeline",
+      "waitForCompletion": true
+    },
+        {
+      "application": "ossapp",
+      "failPipeline": true,
+      "name": "OSS App Post Testing",
+      "pipeline": "bee39934-21b2-45a1-bb29-53d3db06b75c",
+      "pipelineParameters":       {
+        "EXECUTION_ID": "${execution['id']}",
+        "INT_CHART_VERSION": "${trigger['parameters']['II_INT_CHART_VERSION']}",
+        "KUBE_CONFIG": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"KUBE_CONFIG\"]}",
+        "NAMESPACE": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"NAMESPACE\"]}",
+        "PF_DEPLOY": "${trigger['parameters']['II_PF_DEPLOY']}",
+        "PF_HOSTNAME": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"EO_PF_HOSTNAME\"]}",
+        "RBAC_DEPLOY": "${trigger['parameters']['RBAC_TEST']}",
+        "SO_DEPLOY": "${trigger['parameters']['II_SO_DEPLOY']}",
+        "SO_HOSTNAME": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"EO_SO_HOSTNAME\"]}",
+        "UDS_DEPLOY": "${trigger['parameters']['II_UDS_DEPLOY']}",
+        "UDS_HOSTNAME": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"EO_UDS_HOSTNAME\"]}"
+      },
+      "refId": "42",
+      "requisiteStageRefIds": ["37"],
+      "type": "pipeline",
+      "waitForCompletion": true
+    },
+        {
+      "application": "ossapp",
+      "completeOtherBranchesThenFail": false,
+      "continuePipeline": false,
+      "expectedArtifacts": [],
+      "failPipeline": true,
+      "name": "Reserve And Gather Env Details",
+      "pipeline": "48466336-fe37-4972-a32d-8f3b9d53d187",
+      "pipelineParameters":       {
+        "ENV_DETAILS_DIR": "${trigger['parameters']['ENV_DETAILS_DIR']}",
+        "ENV_LABEL": "${trigger['parameters']['ENV_LABEL']}",
+        "FLOW_URL_TAG": "${trigger['parameters']['FLOW_URL_TAG']}",
+        "SPINNAKER_FLOW_ID": "${trigger['parameters']['SPINNAKER_FLOW_ID']}",
+        "WAIT_TIME": "${trigger['parameters']['WAIT_TIME']}"
+      },
+      "refId": "43",
+      "requisiteStageRefIds": ["15"],
+      "type": "pipeline",
+      "waitForCompletion": true
+    },
+        {
+      "continuePipeline": false,
+      "failPipeline": true,
+      "job": "OSS-Integration-UDS-backend-wait",
+      "master": "oss-aispinn-fem5s11-eiffel052",
+      "name": "UDS_Wait",
+      "parameters":       {
+        "KUBECONFIG_FILE": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"KUBE_CONFIG\"]}",
+        "NAMESPACE": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"NAMESPACE\"]}",
+        "SLAVE_LABEL": "evo_docker_engine_gic_IDUN"
+      },
+      "refId": "48",
+      "requisiteStageRefIds": ["1"],
+      "stageEnabled":       {
+        "expression": "\"${trigger['parameters']['II_UDS_DEPLOY']}\" == \"true\"",
+        "type": "expression"
+      },
+      "type": "jenkins"
+    },
+        {
+      "continuePipeline": false,
+      "failPipeline": true,
+      "job": "OSS-Integration-UDS-backend-wait",
+      "master": "oss-aispinn-fem5s11-eiffel052",
+      "name": "UDS_Upgrade_Wait",
+      "parameters":       {
+        "KUBECONFIG_FILE": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"KUBE_CONFIG\"]}",
+        "NAMESPACE": "${#stage(\"Reserve And Gather Env Details\")[\"context\"][\"NAMESPACE\"]}",
+        "SLAVE_LABEL": "evo_docker_engine_gic_IDUN"
+      },
+      "refId": "49",
+      "requisiteStageRefIds": ["39"],
+      "stageEnabled":       {
+        "expression": "\"${trigger['parameters']['II_UDS_DEPLOY']}\" == \"true\"",
+        "type": "expression"
+      },
+      "type": "jenkins"
+    }
+  ],
+  "triggers": [],
+  "updateTs": "1642068090192"
+}

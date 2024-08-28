@@ -1,0 +1,193 @@
+{
+  "appConfig": {},
+  "keepWaitingPipelines": true,
+  "lastModifiedBy": "emanjoh",
+  "limitConcurrent": true,
+  "notifications": [],
+  "parameterConfig": [
+    {
+      "default": "CHART_NAMEVERSION",
+      "description": "Option to  state whether the Chart is coming in as a Chart Name & Version (CHART_NAMEVERSION) or as a Review (CHART_REVIEW) ",
+      "hasOptions": true,
+      "label": "Publish Type",
+      "name": "PUBLISH_TYPE",
+      "options": [
+        {
+          "value": "CHART_NAMEVERSION"
+        },
+        {
+          "value": "CHART_REVIEW"
+        }
+      ],
+      "pinned": true,
+      "required": true
+    },
+    {
+      "default": "",
+      "description": "Name of the chart within the requirements.yaml",
+      "hasOptions": false,
+      "label": "Chart Name",
+      "name": "CHART_NAME",
+      "options": [
+        {
+          "value": ""
+        }
+      ],
+      "pinned": false,
+      "required": false
+    },
+    {
+      "default": "",
+      "description": "Version of the Chart to be added to the requirements.yaml ",
+      "hasOptions": false,
+      "label": "Chart Version",
+      "name": "CHART_VERSION",
+      "options": [
+        {
+          "value": ""
+        }
+      ],
+      "pinned": false,
+      "required": false
+    },
+    {
+      "default": "",
+      "description": "Repo of the Chart as in the requirements.yaml",
+      "hasOptions": false,
+      "label": "Chart Repo",
+      "name": "CHART_REPO",
+      "options": [
+        {
+          "value": ""
+        }
+      ],
+      "pinned": false,
+      "required": false
+    },
+    {
+      "default": "",
+      "description": "Gerrit RefSpec of the review to Submit and Release",
+      "hasOptions": false,
+      "label": "Gerrit Refspec",
+      "name": "GERRIT_REFSPEC",
+      "options": [
+        {
+          "value": ""
+        }
+      ],
+      "pinned": false,
+      "required": false
+    },
+    {
+      "default": "",
+      "description": "Gerrit Branch of the review to Submit and Release",
+      "hasOptions": false,
+      "label": "Gerrit Branch",
+      "name": "GERRIT_BRANCH",
+      "options": [
+        {
+          "value": ""
+        }
+      ],
+      "pinned": false,
+      "required": false
+    }
+  ],
+  "stages": [
+    {
+      "completeOtherBranchesThenFail": false,
+      "continuePipeline": true,
+      "failPipeline": false,
+      "job": "OSS-Integration-Fetch-Build-Upload",
+      "master": "oss-aispinn-fem5s11-eiffel052",
+      "name": "Fetch, Build, Release and Submit on Review",
+      "parameters": {
+        "ARMDOCKER_USER_SECRET": "cloudman-docker-auth-config",
+        "CHART_NAME": "",
+        "CHART_REPO": "",
+        "CHART_VERSION": "",
+        "GERRIT_PREPARE_OR_PUBLISH": "publish",
+        "GERRIT_REFSPEC": "${trigger['parameters']['GERRIT_REFSPEC']}",
+        "GERRIT_USER_SECRET": "cloudman-user-creds",
+        "GIT_REPO_URL": "https://gerrit.ericsson.se/a/OSS/com.ericsson.oss.aeonic/oss_integration_charts.git",
+        "HELM_DROP_REPO": "https://arm.seli.gic.ericsson.se/artifactory/proj-eric-oss-drop-helm",
+        "HELM_INTERNAL_REPO": "https://arm.seli.gic.ericsson.se/artifactory/proj-eric-oss-ci-internal-helm",
+        "HELM_RELEASED_REPO": "https://arm.epk.ericsson.se/artifactory/proj-eo-released-helm",
+        "SLAVE_LABEL": "evo_docker_engine_gic_IDUN",
+        "VCS_BRANCH": "${trigger['parameters']['GERRIT_BRANCH']}",
+        "VERSION_STEP_STRATEGY_DEPENDENCY": "PATCH",
+        "VERSION_STEP_STRATEGY_MANUAL": "PATCH",
+        "WAIT_TIMEOUT_SEC_BEFORE_PUBLISH": "1200"
+      },
+      "propertyFile": "artifact.properties",
+      "refId": "12",
+      "requisiteStageRefIds": [],
+      "stageEnabled": {
+        "expression": "\"${trigger['parameters']['PUBLISH_TYPE']}\" == \"CHART_REVIEW\"",
+        "type": "expression"
+      },
+      "type": "jenkins"
+    },
+    {
+      "completeOtherBranchesThenFail": false,
+      "continuePipeline": true,
+      "failPipeline": false,
+      "job": "OSS-Integration-Fetch-Build-Upload",
+      "master": "oss-aispinn-fem5s11-eiffel052",
+      "name": "Fetch, Build, Release and Submit on Chart Name",
+      "parameters": {
+        "ARMDOCKER_USER_SECRET": "cloudman-docker-auth-config",
+        "CHART_NAME": "${trigger['parameters']['CHART_NAME']}",
+        "CHART_REPO": "${trigger['parameters']['CHART_REPO']}",
+        "CHART_VERSION": "${trigger['parameters']['CHART_VERSION']}",
+        "GERRIT_PREPARE_OR_PUBLISH": "publish",
+        "GERRIT_REFSPEC": "",
+        "GERRIT_USER_SECRET": "cloudman-user-creds",
+        "GIT_REPO_URL": "https://gerrit.ericsson.se/a/OSS/com.ericsson.oss.aeonic/oss_integration_charts.git",
+        "HELM_DROP_REPO": "https://arm.seli.gic.ericsson.se/artifactory/proj-eric-oss-drop-helm",
+        "HELM_INTERNAL_REPO": "https://arm.seli.gic.ericsson.se/artifactory/proj-eric-oss-ci-internal-helm",
+        "HELM_RELEASED_REPO": "https://arm.epk.ericsson.se/artifactory/proj-eo-released-helm",
+        "SLAVE_LABEL": "evo_docker_engine_gic_IDUN",
+        "VCS_BRANCH": "",
+        "VERSION_STEP_STRATEGY_DEPENDENCY": "PATCH",
+        "VERSION_STEP_STRATEGY_MANUAL": "PATCH",
+        "WAIT_TIMEOUT_SEC_BEFORE_PUBLISH": "1200"
+      },
+      "propertyFile": "artifact.properties",
+      "refId": "13",
+      "requisiteStageRefIds": [],
+      "stageEnabled": {
+        "expression": "\"${trigger['parameters']['PUBLISH_TYPE']}\" == \"CHART_NAMEVERSION\"",
+        "type": "expression"
+      },
+      "type": "jenkins"
+    },
+    {
+      "name": "Check Preconditions",
+      "preconditions": [
+        {
+          "context": {
+            "expression": "\"${#stage('Fetch, Build, Release and Submit on Review')['status']}\" == \"SUCCEEDED\" or \"${#stage('Fetch, Build, Release and Submit on Review')['status']}\" == \"SKIPPED\""
+          },
+          "failPipeline": true,
+          "type": "expression"
+        },
+        {
+          "context": {
+            "expression": "\"${#stage('Fetch, Build, Release and Submit on Chart Name')['status']}\" == \"SUCCEEDED\" or \"${#stage('Fetch, Build, Release and Submit on Chart Name')['status']}\" == \"SKIPPED\""
+          },
+          "failPipeline": true,
+          "type": "expression"
+        }
+      ],
+      "refId": "14",
+      "requisiteStageRefIds": [
+        "12",
+        "13"
+      ],
+      "type": "checkPreconditions"
+    }
+  ],
+  "triggers": [],
+  "updateTs": "1617286276374"
+}

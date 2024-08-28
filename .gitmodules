@@ -1,0 +1,6 @@
+[submodule "eo-integration-ci"]
+	path = eo-integration-ci
+	url = ../../com.ericsson.oss.orchestration.eo/eo-integration-ci
+[submodule "bob"]
+	path = bob
+	url = ../../../adp-cicd/bob

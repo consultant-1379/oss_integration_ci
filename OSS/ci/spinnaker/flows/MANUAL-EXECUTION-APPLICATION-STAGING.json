@@ -1,0 +1,94 @@
+{
+  "appConfig": {},
+  "application": "ossapp",
+  "id": "14c2b91f-5c7d-4dc4-b2ef-65f35a08e86c",
+  "index": 0,
+  "keepWaitingPipelines": true,
+  "lastModifiedBy": "emanjoh",
+  "limitConcurrent": false,
+  "name": "MANUAL-EXECUTION-APPLICATION-STAGING",
+  "parameterConfig":   [
+        {
+      "default": "",
+      "description": "Name of the chart within the requiremnts.yaml ",
+      "hasOptions": false,
+      "label": "CHART_NAME",
+      "name": "CHART_NAME",
+      "options": [{"value": ""}],
+      "pinned": false,
+      "required": true
+    },
+        {
+      "default": "",
+      "description": "Version of the Chart to be added to the requirements.yaml with eo",
+      "hasOptions": false,
+      "label": "CHART_VERSION",
+      "name": "CHART_VERSION",
+      "options": [{"value": ""}],
+      "pinned": false,
+      "required": true
+    },
+        {
+      "default": "",
+      "description": "Application Chart Repo URL",
+      "hasOptions": false,
+      "label": "CHART_REPO",
+      "name": "CHART_REPO",
+      "options": [{"value": ""}],
+      "pinned": false,
+      "required": true
+    },
+        {
+      "default": "false",
+      "description": "Used to Force the Initial install of the environment",
+      "hasOptions": false,
+      "label": "FORCE_REDEPLOY",
+      "name": "FORCE_REDEPLOY",
+      "options": [{"value": ""}],
+      "pinned": false,
+      "required": false
+    },
+        {
+      "default": "false",
+      "description": "Set this to true to stop all deliveries being delivered to the EO Chart. Application's can still execute the flow but will not be delivered to the EO Chart at the end. Options true or false.",
+      "hasOptions": false,
+      "label": "SPRINT_CLOSED",
+      "name": "SPRINT_CLOSED",
+      "options": [{"value": ""}],
+      "pinned": false,
+      "required": false
+    },
+        {
+      "default": "app-idun-staging",
+      "description": "This is the label that is used to choose the environment from the pool",
+      "hasOptions": false,
+      "label": "ENV_LABEL",
+      "name": "ENV_LABEL",
+      "options": [{"value": ""}],
+      "pinned": false,
+      "required": true
+    }
+  ],
+  "schema": "1",
+  "stages": [  {
+    "application": "ossapp",
+    "failPipeline": true,
+    "name": "Pipeline",
+    "pipeline": "a57ba58b-94dd-425a-98e7-1d0067daabd5",
+    "pipelineParameters":     {
+      "CHART_NAME": "${trigger['parameters']['CHART_NAME']}",
+      "CHART_REPO": "${trigger['parameters']['CHART_REPO']}",
+      "CHART_VERSION": "${trigger['parameters']['CHART_VERSION']}",
+      "ENV_LABEL": "${trigger['parameters']['ENV_LABEL']}",
+      "FORCE_REDEPLOY": "${trigger['parameters']['FORCE_REDEPLOY']}",
+      "SPRINT_CLOSED": "${trigger['parameters']['SPRINT_CLOSED']}",
+      "WAIT_TIME": "120"
+    },
+    "refId": "1",
+    "requisiteStageRefIds": [],
+    "type": "pipeline",
+    "waitForCompletion": true
+  }],
+  "triggers": [],
+  "updateTs": "1609929966023"
+}

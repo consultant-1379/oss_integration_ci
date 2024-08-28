@@ -1,0 +1,7 @@
+{
+  "error": "Not Found",
+  "exception": "com.netflix.spinnaker.kork.web.exceptions.NotFoundException",
+  "message": "Pipeline config (id: OSS-INTEGRATION-CSAR-BUILD) not found for Application (id: ossapp)",
+  "status": 404,
+  "timestamp": "2024-06-16T04:27:07.550+00:00"
+}

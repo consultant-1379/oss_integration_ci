@@ -1,0 +1,116 @@
+#!/usr/bin/env groovy
+
+import java.time.*
+import groovy.json.*
+
+def now = new Date()
+
+pipeline {
+  agent {
+    label params.NODE_LABEL
+  }
+
+  parameters {
+
+    string(name: 'SPINNAKER_SVC_CRED_ID',
+      defaultValue: 'eoadm100-user-credentials',
+      description: 'Jenkins secret ID for ARM Registry Credentials')
+
+    string(name: 'NODE_LABEL',
+      defaultValue: 'evo_docker_engine',
+      description: 'Nodes having this label can execute this pipeline')
+
+    string(name: 'DISTRIBUTION_EMAIL',
+      defaultValue: 'karoly.antoni@ericsson.com',
+      description: 'Address for email to be sent if there are issues')
+
+    string(name: 'APP_PIPELINES',
+      defaultValue: 'MANUAL-EXECUTION-APPLICATION-STAGING,OSS-APPLICATION-STAGING,OSS-CHART-A2A,oss-chart-e2e-flow,OSS-CHART-R2R,OSS-CHART-S2S,oss-integration-BUR-test,OSS-INTEGRATION-CSAR-BUILD,oss-integration-delete-and-deploy,oss-integration-post-app-tests,oss-integration-pre-app-tests,oss-integration-redeploy-env,OSS-INTEGRATION-REPO-SUBMIT-PIPELINE,oss-integration-reserve-and-gather-environment-details',
+      description: 'List of pipelines for backing up from app pipelines')
+
+    string(name: 'SPINNAKER_PROJECT',
+      defaultValue: 'ossapp',
+      description: 'Name of project to get backup from, default: ossapp')
+
+    string(name: 'PIPELINE_URL',
+      defaultValue: "https://fem5s11-eiffel052.eiffel.gic.ericsson.se:8443/jenkins/job/OSS-Integration-Backup-Pipelines-ossapp/",
+      description: 'URL of the pipeline used in notification e-mail.')
+  }
+
+  stages {
+    stage('Collect Pipelines JSON') {
+      steps {
+        script {
+
+          emailBody = "<h3 style=\"font-weight: 600;\">OSS-APP Backup Spinnaker Pipelines</h3>\n"
+          emailBody +="<h3 style=\"font-weight: normal;\">List of pipelines:</h3>\n"
+
+          application = "${params.SPINNAKER_PROJECT}"
+          echo "${application}"
+          //checking if come ossapp
+          //separating pipeline names by a comma
+          pipelinelist = "${params.APP_PIPELINES}".split(",")
+
+          emailBody += "<ul>\n"
+          //looping each pipeline name through url and writing resulting JSON string to apiResponse variable
+          pipelinelist.each {
+            withCredentials([usernameColonPassword(credentialsId: "${env:SPINNAKER_SVC_CRED_ID}", variable: 'SPINNAKER_SVC_CRED')]) {
+              apiResponse = sh(returnStdout: true, script: """curl \
+                                   -X GET \
+                                   -H "Content-Type: application/json" \
+                                   --user "${SPINNAKER_SVC_CRED}" \
+                                   "https://spinnaker-api.rnd.gic.ericsson.se/applications/${application}/pipelineConfigs/${it}" \
+                                   """)
+            }
+            //write JSON string to results variable
+            results = readJSON text: apiResponse
+            //write formatted pretty JSON to file with pipeline name
+            writeJSON file: "OSS/ci/spinnaker/flows/${it}.json", json: results, pretty: 2
+            emailBody += "<li>${it}</li>\n"
+          }
+        }
+      }
+    }
+    stage('Push config files to the repository') {
+      steps {
+        script {
+            echo "directory check for changes"
+            sh "ls -la OSS/ci/spinnaker/flows/"
+            echo "pushing to the repository"
+            sh  '''
+                git remote set-url --push origin \${GERRIT_CENTRAL}/OSS/com.ericsson.oss.aeonic/oss_integration_ci
+                git add OSS/ci/spinnaker/flows/.
+                git commit -m "JENKINS job fem5s11 - OSS-Integration-Backup-Pipelines-ossapp"
+                git push origin HEAD:master
+                '''
+        }
+      }
+    }
+  }
+    post {
+      success {
+        script {
+        //sending success notification
+          emailext subject: "JFYI :: OSS APP Spinnaker Pipelines Backup ${now.format("dd.MM.yy (HH:mm)", TimeZone.getTimeZone('UTC'))}",
+                        from: "NoReply@ericsson.com",
+                        to: "${params.DISTRIBUTION_EMAIL}",
+                        mimeType: 'text/html',
+                        body: emailBody
+            }
+      }
+      failure {
+        script {
+          failed_emailBody  = "<h3 style=\"font-weight: 600;\">OSS-APP Backup Spinnaker Pipelines</h3>\n"
+          failed_emailBody += "<h3 style=\"font-weight: normal;\">Pipeline URL: ${PIPELINE_URL}\n</h3>"
+          failed_emailBody += "<h3 style=\"font-weight: normal;\">Status: <span style=\"color:red\">FAILED</span></h3>\n"
+
+         //sending fail notification
+          emailext subject: "JFYI :: OSS APP Spinnaker Pipelines Backup ${now.format("dd.MM.yy (HH:mm)", TimeZone.getTimeZone('UTC'))}",
+                        from: "NoReply@ericsson.com",
+                        to: "${params.DISTRIBUTION_EMAIL}",
+                        mimeType: 'text/html',
+                        body: failed_emailBody
+        }
+      }
+    }
+}
